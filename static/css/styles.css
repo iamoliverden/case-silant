@@ -1,0 +1,135 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px auto; /* Fixed margins on the top and bottom, auto margins on the sides */
+    padding: 20px; /* Padding inside the body */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f8f9fa; /* Background color for the body */
+    border: 1px solid #dee2e6; /* Border for the body */
+    border-radius: 15px; /* Rounded corners for the body */
+    box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
+    width: 60%; /* Limit the width to 60% of the screen */
+}
+
+header {
+    background-color: #f8f9fa;
+    padding: 10px 0;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.super-header {
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 15px;
+    padding: 10px;
+    margin: 10px;
+    text-align: center; /* Center the content inside super-header */
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.header-container > div {
+    display: inline-block; /* Make each div shrink to fit its content */
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 15px; /* Rounded corners */
+    padding: 10px; /* Add some padding */
+    margin: 5px; /* Add some margin between the divs */
+}
+
+.electronic-service-book {
+    display: inline-block;
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 15px;
+    padding: 10px;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.main-container {
+    flex: 1;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #dee2e6; /* Border for the main container */
+    border-radius: 15px; /* Rounded corners for the main container */
+    background-color: #ffffff; /* Background color for the main container */
+}
+
+.main-title {
+    text-align: left; /* Left align the text */
+    font-size: 1.2em; /* Adjust font size to normal text */
+    margin-bottom: 20px; /* Add some margin below the title */
+}
+
+.main-title-search-results {
+    margin-top: 20px;
+}
+
+form {
+    margin: 20px 0;
+}
+
+input[type="text"] {
+    padding: 10px;
+    margin-right: 10px;
+    width: 300px;
+    border: 1px solid #dee2e6; /* Border for the input field */
+    border-radius: 5px; /* Rounded corners for the input field */
+}
+
+button {
+    padding: 10px 20px;
+    border: 1px solid #dee2e6; /* Border for the button */
+    border-radius: 5px; /* Rounded corners for the button */
+}
+
+.info-text, .search-results {
+    border: 1px solid #dee2e6; /* Border for the info text and search results */
+    border-radius: 15px; /* Rounded corners for the info text and search results */
+    padding: 10px; /* Add some padding */
+    margin-top: 20px; /* Add some margin on top */
+    background-color: #ffffff; /* Background color for the info text and search results */
+}
+
+.search-results {
+    margin-top: 20px;
+    text-align: left;
+    border: 1px solid #dee2e6; /* Border for the search results */
+    border-radius: 15px; /* Rounded corners for the search results */
+    padding: 10px; /* Add some padding */
+    background-color: #ffffff; /* Background color for the search results */
+}
+
+footer {
+    background-color: #f8f9fa;
+    padding: 10px 0;
+    border-top: 1px solid #dee2e6;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 15px;
+    padding: 10px;
+    margin: 10px;
+    text-align: center; /* Center the content inside footer-container */
+}
+
+.footer-container > div {
+    display: inline-block; /* Make each div shrink to fit its content */
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 15px; /* Rounded corners */
+    padding: 10px; /* Add some padding */
+    margin: 5px; /* Add some margin between the divs */
+}
+

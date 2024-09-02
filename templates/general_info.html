@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>General Info</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">Logo</div>
+            <div class="contact-info">+78352 201209</div>
+            <div class="login-button"><a href="{% url 'logout' %}">Logout</a></div>
+        </div>
+    </header>
+    <main>
+        <div class="main-container">
+            <h1>General Info</h1>
+            {% if machine %}
+                <ul>
+                    <li><strong>Serial Number:</strong> {{ machine.serial_number }}</li>
+                    <li><strong>Model:</strong> {{ machine.model.name }}</li>
+                    <li><strong>Engine Model:</strong> {{ machine.engine_model.name }}</li>
+                    <li><strong>Engine Serial Number:</strong> {{ machine.engine_serial_number }}</li>
+                    <li><strong>Transmission Model:</strong> {{ machine.transmission_model.name }}</li>
+                    <li><strong>Transmission Serial Number:</strong> {{ machine.transmission_serial_number }}</li>
+                    <li><strong>Drive Axle Model:</strong> {{ machine.drive_axle_model.name }}</li>
+                    <li><strong>Drive Axle Serial Number:</strong> {{ machine.drive_axle_serial_number }}</li>
+                    <li><strong>Steer Axle Model:</strong> {{ machine.steer_axle_model.name }}</li>
+                    <li><strong>Steer Axle Serial Number:</strong> {{ machine.steer_axle_serial_number }}</li>
+                </ul>
+            {% else %}
+                <p>No machine found with the given serial number.</p>
+            {% endif %}
+        </div>
+    </main>
+    <footer>
+        <div class="footer-container">
+            <div class="contact-info">+78352 201209</div>
+            <div class="footer-text">My Silant 2022</div>
+        </div>
+    </footer>
+</body>
+</html>

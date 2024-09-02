@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claims</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">Logo</div>
+            <div class="contact-info">+78352 201209</div>
+            <div class="login-button"><a href="{% url 'logout' %}">Logout</a></div>
+        </div>
+    </header>
+    <main>
+        <div class="main-container">
+            <h1>Claims</h1>
+            {% if claims %}
+                <ul>
+                    {% for claim in claims %}
+                        <li>
+                            <strong>Failure Date:</strong> {{ claim.failure_date }}<br>
+                            <strong>Operating Hours:</strong> {{ claim.operating_hours }}<br>
+                            <strong>Failure Unit:</strong> {{ claim.failure_unit.name }}<br>
+                            <strong>Failure Description:</strong> {{ claim.failure_description }}<br>
+                            <strong>Recovery Method:</strong> {{ claim.recovery_method.name }}<br>
+                            <strong>Used Spare Parts:</strong> {{ claim.used_spare_parts }}<br>
+                            <strong>Recovery Date:</strong> {{ claim.recovery_date }}<br>
+                            <strong>Downtime:</strong> {{ claim.downtime }}<br>
+                            <strong>Service Company:</strong> {{ claim.service_company.name }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No claims found for the given serial number.</p>
+            {% endif %}
+        </div>
+    </main>
+    <footer>
+        <div class="footer-container">
+            <div class="contact-info">+78352 201209</div>
+            <div class="footer-text">My Silant 2022</div>
+        </div>
+    </footer>
+</body>
+</html>

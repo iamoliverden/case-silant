@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silant Machinery - Logged In</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">Logo</div>
+            <div class="contact-info">+78352 201209</div>
+            <div class="login-button"><a href="{% url 'logout' %}">Logout</a></div>
+        </div>
+    </header>
+    <main>
+        <div class="main-container">
+            <h1>Check the equipment and technical specifications of Silant machinery.</h1>
+            <form method="GET" action="{% url 'search_loggedin' %}">
+                <input type="text" name="serial_number" placeholder="Enter machine serial number">
+                <button type="submit">Search</button>
+            </form>
+            <p>Information about the equipment and technical specifications of your machinery.</p>
+            {% if search_results %}
+                <div class="buttons">
+                    <button onclick="location.href='{% url 'general_info' %}?serial_number={{ search_results.0.serial_number }}'">General Info</button>
+                    <button onclick="location.href='{% url 'technical_maintenance' %}?serial_number={{ search_results.0.serial_number }}'">Technical Maintenance</button>
+                    <button onclick="location.href='{% url 'claims' %}?serial_number={{ search_results.0.serial_number }}'">Claims</button>
+                </div>
+                <div class="search-results">
+                    <h2>Search Results:</h2>
+                    <ul>
+                        {% for machine in search_results %}
+                            <li>
+                                <strong>Serial Number:</strong> {{ machine.serial_number }}<br>
+                                <strong>Model:</strong> {{ machine.model.name }}<br>
+                                <strong>Engine Model:</strong> {{ machine.engine_model.name }}<br>
+                                <strong>Engine Serial Number:</strong> {{ machine.engine_serial_number }}<br>
+                                <strong>Transmission Model:</strong> {{ machine.transmission_model.name }}<br>
+                                <strong>Transmission Serial Number:</strong> {{ machine.transmission_serial_number }}<br>
+                                <strong>Drive Axle Model:</strong> {{ machine.drive_axle_model.name }}<br>
+                                <strong>Drive Axle Serial Number:</strong> {{ machine.drive_axle_serial_number }}<br>
+                                <strong>Steer Axle Model:</strong> {{ machine.steer_axle_model.name }}<br>
+                                <strong>Steer Axle Serial Number:</strong> {{ machine.steer_axle_serial_number }}<br>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    </main>
+    <footer>
+        <div class="footer-container">
+            <div class="contact-info">+78352 201209</div>
+            <div class="footer-text">My Silant 2022</div>
+        </div>
+    </footer>
+</body>
+</html>

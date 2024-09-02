@@ -116,3 +116,4 @@ class Claim(models.Model):
 
     def __str__(self):
         return f"Claim for {self.machine.serial_number} on {self.failure_date}"
+
