@@ -1,46 +1,66 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    {% load static %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Technical Maintenance</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-</head>
-<body>
-    <header>
-        <div class="header-container">
-            <div class="logo">Logo</div>
-            <div class="contact-info">+78352 201209</div>
-            <div class="login-button"><a href="{% url 'logout' %}">Logout</a></div>
-        </div>
-    </header>
-    <main>
-        <div class="main-container">
-            <h1>Technical Maintenance</h1>
-            {% if maintenances %}
-                <ul>
-                    {% for maintenance in maintenances %}
-                        <li>
-                            <strong>Maintenance Type:</strong> {{ maintenance.maintenance_type.name }}<br>
-                            <strong>Maintenance Date:</strong> {{ maintenance.maintenance_date }}<br>
-                            <strong>Operating Hours:</strong> {{ maintenance.operating_hours }}<br>
-                            <strong>Order Number:</strong> {{ maintenance.order_number }}<br>
-                            <strong>Order Date:</strong> {{ maintenance.order_date }}<br>
-                            <strong>Service Company:</strong> {{ maintenance.service_company.name }}<br>
-                        </li>
+{% extends 'landing_page.html' %}
+{% load static %}
+
+{% block superheader %}
+    <div class="header-container">
+        <div class="logo">Logo</div>
+        <div class="contact-info">+78352 201209</div>
+        <div class="login-button"><a href="{% url 'logout' %}">{{ user_name }} / Logout</a></div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="main-title">Technical Maintenance for {{ machine.model.name }} with Serial Number {{ machine.serial_number }} </div>
+    <div class="info-text">Details of technical maintenance for your machinery.</div>
+    {% if maintenances_records %}
+        <div class="search-results">
+            <table class="maintenance-table">
+                <thead>
+                    <tr>
+                        <th>Maintenance Type</th>
+                        <th>Maintenance Date</th>
+                        <th>Operating Hours</th>
+                        <th>Order Number</th>
+                        <th>Order Date</th>
+                        <th>Service Company</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in maintenances_records %}
+                        <tr onclick="window.location.href='{% url 'edit_service_record' record.pk %}'">
+                            <td>{{ record.maintenance_type.name }}</td>
+                            <td>{{ record.maintenance_date|date:"Y-m-d" }}</td>
+                            <td>{{ record.operating_hours }}</td>
+                            <td>{{ record.order_number }}</td>
+                            <td>{{ record.order_date|date:"Y-m-d" }}</td>
+                            <td>{{ record.service_company.name }}</td>
+                        </tr>
                     {% endfor %}
-                </ul>
-            {% else %}
-                <p>No maintenance records found for the given serial number.</p>
-            {% endif %}
+                    <tr onclick="window.location.href='{% url 'create_service_record' %}'">
+                        <td colspan="6" style="text-align: center; color: gray;">Add new maintenance record</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-    </main>
-    <footer>
-        <div class="footer-container">
-            <div class="contact-info">+78352 201209</div>
-            <div class="footer-text">My Silant 2022</div>
+    {% else %}
+        <div class="search-results">
+            <table class="maintenance-table">
+                <thead>
+                    <tr>
+                        <th>Maintenance Type</th>
+                        <th>Maintenance Date</th>
+                        <th>Operating Hours</th>
+                        <th>Order Number</th>
+                        <th>Order Date</th>
+                        <th>Service Company</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr onclick="window.location.href='{% url 'create_service_record' %}'">
+                        <td colspan="6" style="text-align: center; color: gray;">Add new maintenance record</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-    </footer>
-</body>
-</html>
+    {% endif %}
+{% endblock %}

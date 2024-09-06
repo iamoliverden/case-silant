@@ -1,0 +1,93 @@
+{% extends 'landing_page.html' %}
+{% load static %}
+
+{% block superheader %}
+    <div class="header-container">
+        <div class="logo">Logo</div>
+        <div class="contact-info">+7-8352-201-209</div>
+        <div class="login-button"><a href="{% url 'logout' %}">{{ user_name }} / Logout</a></div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="main-title">Detailed Information for {{ machine.model.name }} with Serial Number {{ machine.serial_number }}</div>
+    <div class="info-text">Detailed information about the selected machine.</div>
+    {% if machine %}
+        <div class="search-results">
+            <table class="machine-details-table">
+                <tbody>
+                    <tr>
+                        <td>Serial Number</td>
+                        <td>{{ machine.serial_number }}</td>
+                    </tr>
+                    <tr>
+                        <td>Model</td>
+                        <td>{{ machine.model.name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Engine Model</td>
+                        <td>{{ machine.engine_model.name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Engine Serial Number</td>
+                        <td>{{ machine.engine_serial_number }}</td>
+                    </tr>
+                    <tr>
+                        <td>Transmission Model</td>
+                        <td>{{ machine.transmission_model.name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Transmission Serial Number</td>
+                        <td>{{ machine.transmission_serial_number }}</td>
+                    </tr>
+                    <tr>
+                        <td>Drive Axle Model</td>
+                        <td>{{ machine.drive_axle_model.name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Drive Axle Serial Number</td>
+                        <td>{{ machine.drive_axle_serial_number }}</td>
+                    </tr>
+                    <tr>
+                        <td>Steer Axle Model</td>
+                        <td>{{ machine.steer_axle_model.name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Steer Axle Serial Number</td>
+                        <td>{{ machine.steer_axle_serial_number }}</td>
+                    </tr>
+                    <tr>
+                        <td>Supply Contract</td>
+                        <td>{{ machine.supply_contract }}</td>
+                    </tr>
+                    <tr>
+                        <td>Shipment Date</td>
+                        <td>{{ machine.shipment_date|date:"Y-m-d" }}</td>
+                    </tr>
+                    <tr>
+                        <td>Consignee</td>
+                        <td>{{ machine.consignee }}</td>
+                    </tr>
+                    <tr>
+                        <td>Delivery Address</td>
+                        <td>{{ machine.delivery_address }}</td>
+                    </tr>
+                    <tr>
+                        <td>Configuration</td>
+                        <td>{{ machine.configuration }}</td>
+                    </tr>
+                    <tr>
+                        <td>Client</td>
+                        <td>{{ machine.client.username }}</td>
+                    </tr>
+                    <tr>
+                        <td>Service Company</td>
+                        <td>{{ machine.service_company.name }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>No detailed information found for this machine.</p>
+    {% endif %}
+{% endblock %}

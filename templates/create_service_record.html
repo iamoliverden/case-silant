@@ -1,0 +1,22 @@
+{% extends 'landing_page.html' %}
+{% load static %}
+
+{% block superheader %}
+    <div class="header-container">
+        <div class="logo">Logo</div>
+        <div class="contact-info">+78352 201209</div>
+        <div class="login-button"><a href="{% url 'logout' %}">{{ user_name }} / Logout</a></div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="main-title">Create New Service Record</div>
+    <div class="info-text">Fill in the details to create a new service record.</div>
+    <div class="create-record">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Create Record</button>
+        </form>
+    </div>
+{% endblock %}

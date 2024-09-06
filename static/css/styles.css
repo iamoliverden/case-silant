@@ -133,3 +133,80 @@ footer {
     margin: 5px; /* Add some margin between the divs */
 }
 
+.search-results .machine-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.search-results .machine-table th, .search-results .machine-table td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: left;
+    width: 20%;
+}
+.search-results .machine-table th {
+    background-color: #f2f2f2;
+}
+.search-results .machine-table tr {
+    cursor: pointer;
+}
+
+.machine-details-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.machine-details-table td {
+    border: 1px solid black;
+    padding: 8px;
+}
+.machine-details-table td:first-child {
+    font-weight: bold;
+    background-color: #f2f2f2;
+}
+
+.machine-name {
+    cursor: pointer;
+}
+.machine-name:hover::after {
+    content: "Go to TM";
+    position: absolute;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 3px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.steer-axel {
+    cursor: pointer;
+}
+
+.steer-axel:hover::after {
+    content: "Go to Detailed Info";
+    position: absolute;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 3px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.maintenance-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.maintenance-table th, .maintenance-table td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+    width: 16.66%;
+}
+.maintenance-table th {
+    background-color: #f2f2f2;
+}
+.maintenance-table tr {
+    cursor: pointer;
+}
+.maintenance-table tr:hover {
+    background-color: #f9f9f9;
+}

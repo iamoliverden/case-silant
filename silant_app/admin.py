@@ -1,10 +1,5 @@
 from django.contrib import admin
-from .models import (
-    MachineModelReference, EngineModelReference, TransmissionModelReference,
-    DriveAxleModelReference, SteerAxleModelReference, ServiceCompanyReference,
-    TechnicalMaintenanceTypeReference, FailureUnitReference, RecoveryMethodReference,
-    Machine, TechnicalMaintenance, Claim
-)
+from .models.models import *
 
 
 @admin.register(MachineModelReference)
@@ -55,8 +50,8 @@ class RecoveryMethodReferenceAdmin(admin.ModelAdmin):
 @admin.register(Machine)
 class MachineAdmin(admin.ModelAdmin):
     list_display = (
-    'serial_number', 'model', 'engine_model', 'transmission_model', 'drive_axle_model', 'steer_axle_model',
-    'shipment_date', 'client', 'service_company')
+        'serial_number', 'model', 'engine_model', 'transmission_model', 'drive_axle_model', 'steer_axle_model',
+        'shipment_date', 'client', 'service_company')
 
 
 @admin.register(TechnicalMaintenance)
@@ -68,6 +63,5 @@ class TechnicalMaintenanceAdmin(admin.ModelAdmin):
 @admin.register(Claim)
 class ClaimAdmin(admin.ModelAdmin):
     list_display = (
-    'machine', 'failure_date', 'operating_hours', 'failure_unit', 'recovery_method', 'recovery_date', 'downtime',
-    'service_company')
-
+        'machine', 'failure_date', 'operating_hours', 'failure_unit', 'recovery_method', 'recovery_date', 'downtime',
+        'service_company')

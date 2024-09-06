@@ -1,0 +1,48 @@
+{% extends 'landing_page.html' %}
+{% load static %}
+
+{% block superheader %}
+    <div class="header-container">
+        <div class="logo">Logo</div>
+        <div class="contact-info">+7-8352-201-209</div>
+        <div class="login-button"><a href="{% url 'logout' %}">{{ user_name }} / Logout</a></div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="main-title">Your Silant Machinery</div>
+    <div class="info-text">Information about the equipment and technical specifications of your machinery.</div>
+    <div class="main-title main-title-search-results">Your Machines:</div>
+    {% if user_machines %}
+        <div class="search-results">
+            <table class="machine-table">
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>Engine</th>
+                        <th>Transmission</th>
+                        <th>Drive Axle</th>
+                        <th>Steer Axle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for machine in user_machines %}
+                        <tr>
+                            <td class="machine-name" onclick="window.location.href='{% url 'technical_maintenance' %}?serial_number={{ machine.serial_number }}'">
+                                {{ machine.model.name }}
+                            </td>
+                            <td>{{ machine.engine_model.name }}</td>
+                            <td>{{ machine.transmission_model.name }}</td>
+                            <td>{{ machine.drive_axle_model.name }}</td>
+                            <td class="steer-axel" onclick="window.location.href='{% url 'detailed_info' %}?serial_number={{ machine.serial_number }}'">
+                                {{ machine.steer_axle_model.name }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>No machines found for your account.</p>
+    {% endif %}
+{% endblock %}
