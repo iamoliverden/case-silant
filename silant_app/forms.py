@@ -1,5 +1,6 @@
 from django import forms
 from .models.models import *
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 
 class TechnicalMaintenanceForm(forms.ModelForm):
@@ -22,3 +23,14 @@ class TechnicalMaintenanceForm(forms.ModelForm):
             self.add_error('service_company', 'The service company must match the one assigned to the machine.')
 
         return cleaned_data
+
+
+class CustomUserCreationForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        model = CustomUser
+        fields = ('username', 'email', 'is_service_company')
+
+class CustomUserChangeForm(UserChangeForm):
+    class Meta:
+        model = CustomUser
+        fields = ('username', 'email', 'is_service_company')

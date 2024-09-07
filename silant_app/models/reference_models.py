@@ -1,3 +1,5 @@
+# reference_models.py
+
 from django.db import models
 
 class MachineModelReference(models.Model):

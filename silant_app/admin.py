@@ -1,67 +1,46 @@
 from django.contrib import admin
-from .models.models import *
+from django.contrib.auth.admin import UserAdmin
+from .forms import CustomUserCreationForm, CustomUserChangeForm
+from django.contrib.auth.models import Group
+from .models.models import CustomUser, Machine, TechnicalMaintenance, Claim
+from .models.reference_models import (
+    MachineModelReference, EngineModelReference, TransmissionModelReference,
+    DriveAxleModelReference, SteerAxleModelReference, ServiceCompanyReference,
+    TechnicalMaintenanceTypeReference, FailureUnitReference, RecoveryMethodReference
+)
+
+class CustomUserAdmin(UserAdmin):
+    add_form = CustomUserCreationForm
+    form = CustomUserChangeForm
+    model = CustomUser
+    list_display = ['username', 'email', 'is_service_company', 'is_staff', 'is_active']
+    list_filter = ['is_service_company', 'is_staff', 'is_active']
+    fieldsets = (
+        (None, {'fields': ('username', 'email', 'password', 'is_service_company')}),
+        ('Permissions', {'fields': ('is_staff', 'is_active', 'groups')}),
+    )
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'email', 'password1', 'password2', 'is_service_company', 'is_staff', 'is_active', 'groups')}
+        ),
+    )
+    search_fields = ('email', 'username')
+    ordering = ('email',)
 
 
-@admin.register(MachineModelReference)
-class MachineModelReferenceAdmin(admin.ModelAdmin):
-    list_display = ('name', 'specification')
-
-
-@admin.register(EngineModelReference)
-class EngineModelReferenceAdmin(admin.ModelAdmin):
-    list_display = ('name', 'specification')
-
-
-@admin.register(TransmissionModelReference)
-class TransmissionModelReferenceAdmin(admin.ModelAdmin):
-    list_display = ('name', 'specification')
-
-
-@admin.register(DriveAxleModelReference)
-class DriveAxleModelReferenceAdmin(admin.ModelAdmin):
-    list_display = ('name', 'specification')
-
-
-@admin.register(SteerAxleModelReference)
-class SteerAxleModelReferenceAdmin(admin.ModelAdmin):
-    list_display = ('name', 'specification')
-
-
-@admin.register(ServiceCompanyReference)
-class ServiceCompanyReferenceAdmin(admin.ModelAdmin):
-    list_display = ('name', 'specification')
-
-
-@admin.register(TechnicalMaintenanceTypeReference)
-class TechnicalMaintenanceTypeReferenceAdmin(admin.ModelAdmin):
-    list_display = ('name', 'specification')
-
-
-@admin.register(FailureUnitReference)
-class FailureUnitReferenceAdmin(admin.ModelAdmin):
-    list_display = ('name', 'specification')
-
-
-@admin.register(RecoveryMethodReference)
-class RecoveryMethodReferenceAdmin(admin.ModelAdmin):
-    list_display = ('name', 'specification')
-
-
-@admin.register(Machine)
-class MachineAdmin(admin.ModelAdmin):
-    list_display = (
-        'serial_number', 'model', 'engine_model', 'transmission_model', 'drive_axle_model', 'steer_axle_model',
-        'shipment_date', 'client', 'service_company')
-
-
-@admin.register(TechnicalMaintenance)
-class TechnicalMaintenanceAdmin(admin.ModelAdmin):
-    list_display = ('machine', 'maintenance_type', 'maintenance_date', 'operating_hours', 'order_number', 'order_date',
-                    'service_company')
-
-
-@admin.register(Claim)
-class ClaimAdmin(admin.ModelAdmin):
-    list_display = (
-        'machine', 'failure_date', 'operating_hours', 'failure_unit', 'recovery_method', 'recovery_date', 'downtime',
-        'service_company')
+admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.unregister(Group)
+admin.site.register(Group)
+admin.site.register(Machine)
+admin.site.register(TechnicalMaintenance)
+admin.site.register(Claim)
+admin.site.register(MachineModelReference)
+admin.site.register(EngineModelReference)
+admin.site.register(TransmissionModelReference)
+admin.site.register(DriveAxleModelReference)
+admin.site.register(SteerAxleModelReference)
+admin.site.register(ServiceCompanyReference)
+admin.site.register(TechnicalMaintenanceTypeReference)
+admin.site.register(FailureUnitReference)
+admin.site.register(RecoveryMethodReference)
