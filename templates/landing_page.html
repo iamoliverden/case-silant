@@ -22,7 +22,7 @@
     </header>
     <main>
         <div class="main-container">
-         {% block content %}
+            {% block content %}
             <div class="main-title">Check the equipment and technical specifications of Silant machinery</div>
             <form method="GET" action="{% url 'search' %}">
                 <label>
@@ -32,29 +32,36 @@
             </form>
             <div class="info-text">Information about the equipment and technical specifications of your machinery.</div>
             <div class="main-title main-title-search-results">Search Results:</div>
-                {% if search_results %}
-                    <div class="search-results">
-                        
-                        <ul>
-                            {% for machine in search_results %}
-                                <li>
-                                    <strong>Serial Number:</strong> {{ machine.serial_number }}<br>
-                                    <strong>Model:</strong> {{ machine.model.name }}<br>
-                                    <strong>Engine Model:</strong> {{ machine.engine_model.name }}<br>
-                                    <strong>Engine Serial Number:</strong> {{ machine.engine_serial_number }}<br>
-                                    <strong>Transmission Model:</strong> {{ machine.transmission_model.name }}<br>
-                                    <strong>Transmission Serial Number:</strong> {{ machine.transmission_serial_number }}<br>
-                                    <strong>Drive Axle Model:</strong> {{ machine.drive_axle_model.name }}<br>
-                                    <strong>Drive Axle Serial Number:</strong> {{ machine.drive_axle_serial_number }}<br>
-                                    <strong>Steer Axle Model:</strong> {{ machine.steer_axle_model.name }}<br>
-                                    <strong>Steer Axle Serial Number:</strong> {{ machine.steer_axle_serial_number }}<br>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                {% endif %}
+            {% if search_results %}
+            <div class="search-results">
+                <table class="machine-table">
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>Engine</th>
+                            <th>Transmission</th>
+                            <th>Drive Axle</th>
+                            <th>Steer Axle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for machine in search_results %}
+                        <tr>
+                            <td>{{ machine.model.name }}</td>
+                            <td>{{ machine.engine_model.name }}</td>
+                            <td>{{ machine.transmission_model.name }}</td>
+                            <td>{{ machine.drive_axle_model.name }}</td>
+                            <td class="steer-axel" onclick="window.location.href='{% url 'detailed_info' %}?serial_number={{ machine.serial_number }}'">
+                                {{ machine.steer_axle_model.name }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
-         {% endblock %}
+            {% endif %}
+        </div>
+        {% endblock %}
     </main>
     <footer>
         <div class="footer-container">

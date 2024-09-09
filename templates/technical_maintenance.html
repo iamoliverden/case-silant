@@ -27,7 +27,7 @@
                 </thead>
                 <tbody>
                     {% for record in maintenances_records %}
-                        <tr onclick="window.location.href='{% url 'edit_service_record' record.pk %}'">
+                        <tr {% if can_edit_or_add %} onclick="window.location.href='{% url 'edit_service_record' record.pk %}'" {% endif %}>
                             <td>{{ record.maintenance_type.name }}</td>
                             <td>{{ record.maintenance_date|date:"Y-m-d" }}</td>
                             <td>{{ record.operating_hours }}</td>
@@ -36,9 +36,11 @@
                             <td>{{ record.service_company.name }}</td>
                         </tr>
                     {% endfor %}
-                    <tr onclick="window.location.href='{% url 'create_service_record' %}'">
-                        <td colspan="6" style="text-align: center; color: gray;">Add new maintenance record</td>
-                    </tr>
+                    {% if can_edit_or_add %}
+                        <tr onclick="window.location.href='{% url 'create_service_record' %}'">
+                            <td colspan="6" style="text-align: center; color: gray;">Add new maintenance record</td>
+                        </tr>
+                    {% endif %}
                 </tbody>
             </table>
         </div>
@@ -56,9 +58,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr onclick="window.location.href='{% url 'create_service_record' %}'">
-                        <td colspan="6" style="text-align: center; color: gray;">Add new maintenance record</td>
-                    </tr>
+                    {% if can_edit_or_add %}
+                        <tr onclick="window.location.href='{% url 'create_service_record' %}'">
+                            <td colspan="6" style="text-align: center; color: gray;">Add new maintenance record</td>
+                        </tr>
+                    {% endif %}
                 </tbody>
             </table>
         </div>
