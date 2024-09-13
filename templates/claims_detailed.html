@@ -1,0 +1,61 @@
+{% extends 'landing_page.html' %}
+{% load static %}
+
+{% block superheader %}
+    <div class="header-container">
+        <div class="logo">Logo</div>
+        <div class="contact-info">+7-8352-201-209</div>
+        <div class="login-button"><a href="{% url 'logout' %}">{{ user_name }} / Logout</a></div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="main-title">Detailed Information for Claim on {{ claim.machine.serial_number }}</div>
+    <div class="info-text">Detailed information about the selected claim.</div>
+    {% if claim %}
+        <div class="search-results">
+            <table class="machine-details-table">
+                <tbody>
+                    <tr>
+                        <td>Failure Date</td>
+                        <td>{{ claim.failure_date }}</td>
+                    </tr>
+                    <tr>
+                        <td>Operating Hours</td>
+                        <td>{{ claim.operating_hours }}</td>
+                    </tr>
+                    <tr>
+                        <td>Failure Unit</td>
+                        <td>{{ claim.failure_unit.name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Failure Description</td>
+                        <td>{{ claim.failure_description }}</td>
+                    </tr>
+                    <tr>
+                        <td>Recovery Method</td>
+                        <td>{{ claim.recovery_method.name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Used Spare Parts</td>
+                        <td>{{ claim.used_spare_parts }}</td>
+                    </tr>
+                    <tr>
+                        <td>Recovery Date</td>
+                        <td>{{ claim.recovery_date }}</td>
+                    </tr>
+                    <tr>
+                        <td>Downtime</td>
+                        <td>{{ claim.downtime }}</td>
+                    </tr>
+                    <tr>
+                        <td>Service Company</td>
+                        <td>{{ claim.service_company.name }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p>No detailed information found for this claim.</p>
+    {% endif %}
+{% endblock %}

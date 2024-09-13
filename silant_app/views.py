@@ -4,8 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.urls import reverse_lazy
 from .forms import *
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic.edit import CreateView, UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import ListView
 
 
 def landing_page(request):
@@ -45,12 +46,48 @@ def technical_maintenance(request):
     })
 
 
-@login_required
-def claims(request):
-    serial_number = request.GET.get('serial_number')
-    machine = Machine.objects.filter(serial_number=serial_number).first()
-    claims = Claim.objects.filter(machine=machine) if machine else None
-    return render(request, 'claims.html', {'claims': claims})
+class ClaimPermissions(UserPassesTestMixin):
+    def test_func(self):
+        user_groups = self.request.user.groups.values_list('name', flat=True)
+        return any(group in ['Managers', 'Admins', 'Service Companies', 'Clients'] for group in user_groups)
+
+
+
+class ClaimListView(LoginRequiredMixin, ClaimPermissions, ListView):
+    model = Claim
+    template_name = 'claims.html'
+    context_object_name = 'claims'
+
+    def get_queryset(self):
+        serial_number = self.request.GET.get('serial_number')
+        machine = Machine.objects.filter(serial_number=serial_number).first()
+        return Claim.objects.filter(machine=machine) if machine else Claim.objects.none()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_name'] = self.request.user.username
+        return context
+
+
+
+
+
+from django.views.generic import DetailView
+
+class ClaimDetailView(LoginRequiredMixin, ClaimPermissions, DetailView):
+    model = Claim
+    template_name = 'claims_detailed.html'
+    context_object_name = 'claim'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user_name'] = self.request.user.username
+        return context
+
+
+
+
+
 
 
 def login_view(request):
@@ -154,3 +191,57 @@ class TechnicalMaintenanceUpdateView(LoginRequiredMixin, MaintenanceRecordPermis
 
     def get_success_url(self):
         return reverse_lazy('technical_maintenance') + f'?serial_number={self.object.machine.serial_number}'
+
+
+
+class ClaimCreateView(CreateView):
+    model = Claim
+    form_class = ClaimCreateForm
+    template_name = 'create_claim.html'
+
+    def form_valid(self, form):
+        failure_date = form.cleaned_data['failure_date']
+        recovery_date = form.cleaned_data['recovery_date']
+
+        if recovery_date <= failure_date:
+            form.add_error('recovery_date', 'Recovery date must be after the failure date.')
+            return self.form_invalid(form)
+
+        form.instance.machine = form.cleaned_data['machine_serial_number']
+        form.instance.downtime = (recovery_date - failure_date).days
+
+        if Claim.objects.filter(failure_date=failure_date, service_company=form.cleaned_data['service_company']).exists():
+            form.add_error('failure_date', 'A claim with this failure date already exists for this service company.')
+            return self.form_invalid(form)
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('claims') + f'?serial_number={self.object.machine.serial_number}'
+
+class ClaimUpdateView(UpdateView):
+    model = Claim
+    form_class = ClaimUpdateForm
+    template_name = 'edit_claim.html'
+
+    def form_valid(self, form):
+        failure_date = form.cleaned_data['failure_date']
+        recovery_date = form.cleaned_data['recovery_date']
+
+        if recovery_date <= failure_date:
+            form.add_error('recovery_date', 'Recovery date must be after the failure date.')
+            return self.form_invalid(form)
+
+        form.instance.downtime = (recovery_date - failure_date).days
+
+        if Claim.objects.filter(
+                failure_date=failure_date,
+                service_company=form.cleaned_data['service_company']
+        ).exclude(pk=self.object.pk).exists():
+            form.add_error('failure_date', 'A claim with this failure date already exists for this service company.')
+            return self.form_invalid(form)
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('claims') + f'?serial_number={self.object.machine.serial_number}'

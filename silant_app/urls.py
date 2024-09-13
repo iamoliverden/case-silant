@@ -12,7 +12,10 @@ urlpatterns = [
     path('logged_in/', views.landing_page_logged_in, name='landing_page_logged_in'),
     path('general_info/', views.detailed_info, name='detailed_info'),
     path('technical_maintenance/', views.technical_maintenance, name='technical_maintenance'),
-    path('claims/', views.claims, name='claims'),
+    path('claims/', ClaimListView.as_view(), name='claims'),
+    path('claims_detailed/<int:pk>/', ClaimDetailView.as_view(), name='claims_detailed'),
     path('create_service_record/', TechnicalMaintenanceCreateView.as_view(), name='create_service_record'),
     path('edit_service_record/<int:pk>/', TechnicalMaintenanceUpdateView.as_view(), name='edit_service_record'),
+    path('create_claim/', ClaimCreateView.as_view(), name='create_claim'),
+    path('edit_claim/<int:pk>/', ClaimUpdateView.as_view(), name='edit_claim'),
 ]

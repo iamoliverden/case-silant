@@ -1,4 +1,4 @@
-# edit_service_record.html
+# create_claim.html
 
 {% extends 'landing_page.html' %}
 {% load static %}
@@ -12,13 +12,13 @@
 {% endblock %}
 
 {% block content %}
-    <div class="main-title">Edit Service Record</div>
-    <div class="info-text">Edit the details of the service record.</div>
-    <div class="edit-record">
+    <div class="main-title">Create New Claim</div>
+    <div class="info-text">Fill in the details to create a new claim.</div>
+    <div class="create-record">
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Save Changes</button>
+            <button type="submit">Create Record</button>
         </form>
     </div>
 {% endblock %}
