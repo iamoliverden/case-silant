@@ -1,12 +1,18 @@
 {% extends 'landing_page.html' %}
 {% load static %}
 
-{% block superheader %}
-    <div class="header-container">
-        <div class="logo">Logo</div>
-        <div class="contact-info">+7-8352-201-209</div>
-        <div class="login-button"><a href="{% url 'logout' %}">{{ user_name }} / Logout</a></div>
-    </div>
+{% block header_1 %}
+
+    {% block header_2 %}
+        <div class="header-container">
+                <div class="logo">
+                    <img src="../static/logo/Logotype accent RGB 1.jpg" alt="Logo">
+                </div>
+                <div class="contact-info" id="phone-number">Loading...</div>
+            <div class="login-button"><a href="{% url 'logout' %}">{{ user_name }} / Logout</a></div>
+        </div>
+    {% endblock %}
+    
 {% endblock %}
 
 {% block content %}
@@ -45,4 +51,8 @@
     {% else %}
         <p>No machines found for your account.</p>
     {% endif %}
+{% endblock %}
+
+{% block my_script %}
+    <script src="{% static 'JS/dynamic_content.js' %}"></script>
 {% endblock %}

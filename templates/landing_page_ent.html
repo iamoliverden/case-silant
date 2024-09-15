@@ -8,18 +8,25 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
+
+{% block header_1 %}
     <header>
         <div class="super-header">
-            {% block superheader %}
+            {% block header_2 %}
                 <div class="header-container">
-                    <div class="logo">Logo</div>
-                    <div class="contact-info">+7-8352-201-209</div>
+                <div class="logo">
+                    <img src="../static/logo/Logotype accent RGB 1.jpg" alt="Logo">
+                </div>
+                <div class="contact-info" id="phone-number">Loading...</div>
                     <div class="login-button"><a href="{% url 'logout' %}">{{ user_name }} / Logout</a></div>
                 </div>
             {% endblock %}
             <div class="electronic-service-book">Electronic Service Book "My Silant"</div>
         </div>
     </header>
+
+{% endblock %}
+
     <main>
         <div class="main-container">
          {% block content %}
@@ -67,9 +74,12 @@
     </main>
     <footer>
         <div class="footer-container">
-            <div class="contact-info">+78352 201209</div>
-            <div class="footer-text">My Silant 2022</div>
+            <div class="contact-info" id="footer-phone-number">Loading...</div>
+            <div class="footer-text" id="footer-app-name">Loading...</div>
         </div>
     </footer>
+{% block my_script %}
+    <script src="{% static 'JS/dynamic_content.js' %}"></script>
+{% endblock %}
 </body>
 </html>

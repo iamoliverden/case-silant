@@ -1,30 +1,58 @@
+@font-face {
+    font-family: 'PT Astra Sans';
+    src: url('/static/fonts/PT-Astra-Sans_Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PT Astra Sans';
+    src: url('/static/fonts/PT-Astra-Sans_Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PT Astra Sans';
+    src: url('/static/fonts/PT-Astra-Sans_Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'PT Astra Sans';
+    src: url('/static/fonts/PT-Astra-Sans_Bold-Italic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    margin: 40px auto; /* Fixed margins on the top and bottom, auto margins on the sides */
-    padding: 20px; /* Padding inside the body */
+    font-family: 'PT Astra Sans', sans-serif;
+    margin: 40px auto;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color: #f8f9fa; /* Background color for the body */
-    border: 1px solid #dee2e6; /* Border for the body */
-    border-radius: 15px; /* Rounded corners for the body */
-    box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
-    width: 60%; /* Limit the width to 60% of the screen */
+    background-color: #EBE6D6;
+    border: 1px solid #163E6C;
+    border-radius: 15px;
+    box-sizing: border-box;
+    width: 60%;
 }
 
 header {
-    background-color: #f8f9fa;
+    background-color: #EBE6D6;
     padding: 10px 0;
-    border-bottom: 1px solid #dee2e6;
+    border-bottom: 1px solid #163E6C;
 }
 
 .super-header {
-    background-color: #ffffff;
-    border: 1px solid #dee2e6;
+    background-color: #EBE6D6;
+    border: 1px solid #163E6C;
     border-radius: 15px;
     padding: 10px;
     margin: 10px;
-    text-align: center; /* Center the content inside super-header */
+    text-align: center;
 }
 
 .header-container {
@@ -34,18 +62,18 @@ header {
 }
 
 .header-container > div {
-    display: inline-block; /* Make each div shrink to fit its content */
-    background-color: #ffffff;
-    border: 1px solid #dee2e6;
-    border-radius: 15px; /* Rounded corners */
-    padding: 10px; /* Add some padding */
-    margin: 5px; /* Add some margin between the divs */
+    display: inline-block;
+    background-color: #EBE6D6;
+    border: 1px solid #163E6C;
+    border-radius: 15px;
+    padding: 10px;
+    margin: 5px;
 }
 
 .electronic-service-book {
     display: inline-block;
-    background-color: #ffffff;
-    border: 1px solid #dee2e6;
+    background-color: #EBE6D6;
+    border: 1px solid #163E6C;
     border-radius: 15px;
     padding: 10px;
     margin-top: 10px;
@@ -56,15 +84,15 @@ header {
     flex: 1;
     padding: 20px;
     text-align: center;
-    border: 1px solid #dee2e6; /* Border for the main container */
-    border-radius: 15px; /* Rounded corners for the main container */
-    background-color: #ffffff; /* Background color for the main container */
+    border: 1px solid #163E6C;
+    border-radius: 15px;
+    background-color: #EBE6D6;
 }
 
 .main-title {
-    text-align: left; /* Left align the text */
-    font-size: 1.2em; /* Adjust font size to normal text */
-    margin-bottom: 20px; /* Add some margin below the title */
+    text-align: left;
+    font-size: 1.2em;
+    margin-bottom: 20px;
 }
 
 .main-title-search-results {
@@ -79,58 +107,58 @@ input[type="text"] {
     padding: 10px;
     margin-right: 10px;
     width: 300px;
-    border: 1px solid #dee2e6; /* Border for the input field */
-    border-radius: 5px; /* Rounded corners for the input field */
+    border: 1px solid #163E6C;
+    border-radius: 5px;
 }
 
 button {
     padding: 10px 20px;
-    border: 1px solid #dee2e6; /* Border for the button */
-    border-radius: 5px; /* Rounded corners for the button */
+    border: 1px solid #163E6C;
+    border-radius: 5px;
 }
 
 .info-text, .search-results {
-    border: 1px solid #dee2e6; /* Border for the info text and search results */
-    border-radius: 15px; /* Rounded corners for the info text and search results */
-    padding: 10px; /* Add some padding */
-    margin-top: 20px; /* Add some margin on top */
-    background-color: #ffffff; /* Background color for the info text and search results */
+    border: 1px solid #163E6C;
+    border-radius: 15px;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #EBE6D6;
 }
 
 .search-results {
     margin-top: 20px;
     text-align: left;
-    border: 1px solid #dee2e6; /* Border for the search results */
-    border-radius: 15px; /* Rounded corners for the search results */
-    padding: 10px; /* Add some padding */
-    background-color: #ffffff; /* Background color for the search results */
+    border: 1px solid #163E6C;
+    border-radius: 15px;
+    padding: 10px;
+    background-color: #EBE6D6;
 }
 
 footer {
-    background-color: #f8f9fa;
+    background-color: #EBE6D6;
     padding: 10px 0;
-    border-top: 1px solid #dee2e6;
+    border-top: 1px solid #163E6C;
 }
 
 .footer-container {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background-color: #ffffff;
-    border: 1px solid #dee2e6;
+    background-color: #EBE6D6;
+    border: 1px solid #163E6C;
     border-radius: 15px;
     padding: 10px;
     margin: 10px;
-    text-align: center; /* Center the content inside footer-container */
+    text-align: center;
 }
 
 .footer-container > div {
-    display: inline-block; /* Make each div shrink to fit its content */
-    background-color: #ffffff;
-    border: 1px solid #dee2e6;
-    border-radius: 15px; /* Rounded corners */
-    padding: 10px; /* Add some padding */
-    margin: 5px; /* Add some margin between the divs */
+    display: inline-block;
+    background-color: #EBE6D6;
+    border: 1px solid #163E6C;
+    border-radius: 15px;
+    padding: 10px;
+    margin: 5px;
 }
 
 .search-results .machine-table {
@@ -144,7 +172,8 @@ footer {
     width: 20%;
 }
 .search-results .machine-table th {
-    background-color: #f2f2f2;
+    background-color: #163E6C;
+    color: #FFFFFF;
 }
 .search-results .machine-table tr {
     cursor: pointer;
@@ -160,7 +189,8 @@ footer {
 }
 .machine-details-table td:first-child {
     font-weight: bold;
-    background-color: #f2f2f2;
+    background-color: #163E6C;
+    color: #FFFFFF;
 }
 
 .machine-name {
@@ -169,8 +199,8 @@ footer {
 .machine-name:hover::after {
     content: "Go to TM";
     position: absolute;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
+    background-color: #EBE6D6;
+    border: 1px solid #163E6C;
     padding: 5px;
     border-radius: 3px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -183,13 +213,12 @@ footer {
 .steer-axel:hover::after {
     content: "Go to Detailed Info";
     position: absolute;
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
+    background-color: #EBE6D6;
+    border: 1px solid #163E6C;
     padding: 5px;
     border-radius: 3px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
 
 .maintenance-table {
     width: 100%;
@@ -202,11 +231,43 @@ footer {
     width: 16.66%;
 }
 .maintenance-table th {
-    background-color: #f2f2f2;
+    background-color: #163E6C;
+    color: #FFFFFF;
 }
 .maintenance-table tr {
     cursor: pointer;
 }
 .maintenance-table tr:hover {
-    background-color: #f9f9f9;
+    background-color: #EBE6D6;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.login-input {
+    padding: 10px;
+    margin: 10px 0;
+    width: 80%;
+    max-width: 300px;
+    border: 1px solid #163E6C;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.login-button {
+    padding: 10px 20px;
+    border: 1px solid #163E6C;
+    border-radius: 5px;
+}
+
+.logo img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    max-height: 50px;
 }
