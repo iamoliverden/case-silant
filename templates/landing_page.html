@@ -14,13 +14,18 @@
             {% block header_2 %}
             <div class="header-container">
                 <div class="logo">
-                    <img src="../static/logo/Logotype accent RGB 1.jpg" alt="Logo">
+                    <img id="logo" src="{% static 'logo/Logotype accent RGB 1.jpg' %}" alt="Logo" 
+                        data-logged-in-url="{% url 'landing_page_logged_in' %}" 
+                        data-logged-out-url="{% url 'landing_page' %}">
                 </div>
+                <input type="hidden" id="is-logged-in" value="{{ user.is_authenticated|yesno:'true,false' }}">
                 <div class="contact-info" id="phone-number">Loading...</div>
                 <div class="login-button"><a href="{% url 'login' %}">Login</a></div>
             </div>
             {% endblock %}
-            <div class="electronic-service-book">Electronic Service Book <span id="app-name">Loading...</span></div>
+
+            <div class="electronic-service-book">Electronic Service Book "My Silant"</div>
+       
         </div>
     </header>
 {% endblock %}

@@ -14,9 +14,12 @@
         <div class="super-header">
             {% block header_2 %}
                 <div class="header-container">
-                <div class="logo">
-                    <img src="../static/logo/Logotype accent RGB 1.jpg" alt="Logo">
-                </div>
+                    <div class="logo">
+                        <img id="logo" src="{% static 'logo/Logotype accent RGB 1.jpg' %}" alt="Logo" 
+                            data-logged-in-url="{% url 'landing_page_logged_in' %}" 
+                            data-logged-out-url="{% url 'landing_page' %}">
+                    </div>
+                    <input type="hidden" id="is-logged-in" value="{{ user.is_authenticated|yesno:'true,false' }}">
                 <div class="contact-info" id="phone-number">Loading...</div>
                     <div class="login-button"><a href="{% url 'logout' %}">{{ user_name }} / Logout</a></div>
                 </div>
@@ -78,8 +81,6 @@
             <div class="footer-text" id="footer-app-name">Loading...</div>
         </div>
     </footer>
-{% block my_script %}
-    <script src="{% static 'JS/dynamic_content.js' %}"></script>
-{% endblock %}
+
 </body>
 </html>

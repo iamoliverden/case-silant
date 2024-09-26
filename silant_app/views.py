@@ -128,8 +128,12 @@ def landing_page_logged_in(request):
 @login_required
 def search_ent(request):
     serial_number = request.GET.get('serial_number')
+    user_name = request.user.username
     search_results = Machine.objects.filter(serial_number=serial_number) if serial_number else None
-    return render(request, 'landing_page_ent.html', {'search_results': search_results})
+    return render(request, 'landing_page_ent.html', {
+        'search_results': search_results,
+        'user_name': user_name
+    })
 
 
 class MaintenanceRecordPermissions(UserPassesTestMixin):
