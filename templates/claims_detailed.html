@@ -15,10 +15,10 @@
     {% endblock %}
 {% endblock %}
 {% block content %}
-    <div class="main-title">Detailed Information for Claim on {{ claim.machine.serial_number }}</div>
+    <div class="main-title">Detailed Information for Claim on Machine #{{ claim.machine.serial_number }}</div>
     <div class="info-text">Detailed information about the selected claim.</div>
     {% if claim %}
-        <div class="search-results">
+        <div class="search-results-detailed">
             <table class="machine-details-table">
                 <tbody>
                     <tr>

@@ -19,9 +19,13 @@
 {% endblock %}
 
 {% block content %}
-    <div class="main-title">Your Silant Machinery</div>
+    <div class="info-text">Client Name: {{ user_name }} </div>
     <div class="info-text">Information about the equipment and technical specifications of your machinery.</div>
-    <div class="main-title main-title-search-results">Your Machines:</div>
+               <div class="navigation-buttons">
+                    <div class="green-button">General Information</div>                                   
+                    <div class="to-buttons">Technical Maintenance</div>
+                    <div class="claims-buttons">Claims</div>
+               </div>
     {% if user_machines %}
         <div class="search-results">
             <table class="machine-table">

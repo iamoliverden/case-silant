@@ -33,15 +33,19 @@
     <main>
         <div class="main-container">
          {% block content %}
-            <div class="main-title">Check the equipment and technical specifications of Silant machinery</div>
             <form method="GET" action="{% url 'search_ent' %}">
                 <label>
                     <input type="text" name="serial_number" placeholder="Enter machine serial number">
                 </label>
                 <button type="submit">Search</button>
             </form>
-            <div class="info-text">Information about the equipment and technical specifications of your machinery.</div>
-            <div class="main-title main-title-search-results">Search Results:</div>
+             <div class="info-text">Service Company: {{ user_name }} </div>
+             <div class="info-text">Information about the equipment and technical specifications of your machinery.</div>
+                    <div class="navigation-buttons">
+                        <div class="green-button">General Information</div>                                   
+                        <div class="to-buttons">Technical Maintenance</div>
+                        <div class="claims-buttons">Claims</div>
+                    </div>
                 {% if search_results %}
                         <div class="search-results">
                             <table class="machine-table">

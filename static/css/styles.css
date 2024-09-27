@@ -129,7 +129,7 @@ button {
 }
 
 .search-results {
-    margin-top: 20px;
+    margin-top: 0;
     text-align: left;
     border: 1px solid #163E6C;
     border-radius: 15px;
@@ -137,7 +137,14 @@ button {
     background-color: #EBE6D6;
 }
 
-
+.search-results-detailed {
+    margin-top: 20px;
+    text-align: left;
+    border: 1px solid #163E6C;
+    border-radius: 15px;
+    padding: 10px;
+    background-color: #EBE6D6;
+}
 
 .footer-container {
 
@@ -275,4 +282,22 @@ button {
     display: block;
     margin: 0 auto;
     max-height: 50px;
+}
+
+.navigation-buttons {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.navigation-buttons > div {
+    display: inline-block;
+    border: 1px solid #163E6C;
+    border-radius: 15px;
+    padding: 10px;
+    margin: 20px auto 20px auto;
+}
+
+.navigation-buttons > .green-button {
+   background-color: green;
 }
