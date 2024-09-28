@@ -20,71 +20,74 @@
                             data-logged-out-url="{% url 'landing_page' %}">
                     </div>
                     <input type="hidden" id="is-logged-in" value="{{ user.is_authenticated|yesno:'true,false' }}">
-                <div class="contact-info" id="phone-number">Loading...</div>
+                    <div class="contact-info" id="phone-number">Loading...</div>
                     <div class="login-button"><a href="{% url 'logout' %}">{{ user_name }} / Logout</a></div>
                 </div>
             {% endblock %}
             <div class="electronic-service-book">Electronic Service Book "My Silant"</div>
         </div>
     </header>
-
 {% endblock %}
 
-    <main>
-        <div class="main-container">
-         {% block content %}
+<main>
+    <div class="main-container">
+        {% block content %}
             <form method="GET" action="{% url 'search_ent' %}">
                 <label>
                     <input type="text" name="serial_number" placeholder="Enter machine serial number">
                 </label>
                 <button type="submit">Search</button>
             </form>
-             <div class="info-text">Service Company: {{ user_name }} </div>
-             <div class="info-text">Information about the equipment and technical specifications of your machinery.</div>
-                    <div class="navigation-buttons">
-                        <div id="general-info" class="green-button">General Information</div>                                   
-                        <div id="technical-maintenance" class="to-buttons">Technical Maintenance</div>
-                        <div id="claims" class="claims-buttons">Claims</div>
-                    </div>
-                {% if search_results %}
-                        <div class="search-results">
-                            <table class="machine-table">
-                                <thead>
-                                    <tr>
-                                        <th>Model</th>
-                                        <th>Engine</th>
-                                        <th>Transmission</th>
-                                        <th>Drive Axle</th>
-                                        <th>Steer Axle</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for machine in search_results %}
-                                        <tr>
-                                            <td class="machine-name" onclick="window.location.href='{% url 'technical_maintenance' %}?serial_number={{ machine.serial_number }}'">
-                                                {{ machine.model.name }}
-                                            </td>
-                                            <td>{{ machine.engine_model.name }}</td>
-                                            <td>{{ machine.transmission_model.name }}</td>
-                                            <td>{{ machine.drive_axle_model.name }}</td>
-                                            <td class="steer-axel" onclick="window.location.href='{% url 'detailed_info' %}?serial_number={{ machine.serial_number }}'">
-                                                {{ machine.steer_axle_model.name }}
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                {% endif %}
+            <div class="info-text">Service Company: {{ user_name }} </div>
+            <div class="info-text">Information about the equipment and technical specifications of your machinery.</div>
+            <div class="navigation-buttons">
+                <div id="general-info" class="green-button">General Information</div>                                   
+                <div id="technical-maintenance" class="to-buttons">Technical Maintenance</div>
+                <div id="claims" class="claims-buttons">Claims</div>
             </div>
-         {% endblock %}
-    </main>
-    <footer>
-        <div class="footer-container">
-            <div class="contact-info" id="footer-phone-number">Loading...</div>
-            <div class="footer-text" id="footer-app-name">Loading...</div>
-        </div>
-    </footer>
+            <div class="search-results">
+                <table class="machine-table">
+                    <thead>
+                        <tr>
+                            <th>Model</th>
+                            <th>Engine</th>
+                            <th>Transmission</th>
+                            <th>Drive Axle</th>
+                            <th>Steer Axle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if search_results %}
+                            {% for machine in search_results %}
+                                <tr>
+                                    <td class="machine-name" onclick="window.location.href='{% url 'technical_maintenance' %}?serial_number={{ machine.serial_number }}'">
+                                        {{ machine.model.name }}
+                                    </td>
+                                    <td>{{ machine.engine_model.name }}</td>
+                                    <td>{{ machine.transmission_model.name }}</td>
+                                    <td>{{ machine.drive_axle_model.name }}</td>
+                                    <td class="steer-axel" onclick="window.location.href='{% url 'detailed_info_auth' %}?serial_number={{ machine.serial_number }}'">
+                                        {{ machine.steer_axle_model.name }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="5" style="text-align: center; color: gray;">No record found</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        {% endblock %}
+    </div>
+</main>
+<footer>
+    <div class="footer-container">
+        <div class="contact-info" id="footer-phone-number">Loading...</div>
+        <div class="footer-text" id="footer-app-name">Loading...</div>
+    </div>
+</footer>
 {% block my_script %}
     <script src="{% static 'JS/dynamic_content.js' %}"></script>
     <script src="{% static 'JS/redirections.js' %}"></script>

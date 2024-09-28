@@ -41,7 +41,6 @@
             </form>
             <div class="main-title main-title-search-results">Search Results:</div>
             <div class="info-text">Information about the equipment and technical specifications of your machinery.</div>
-            {% if search_results %}
             <div class="search-results">
                 <table class="machine-table">
                     <thead>
@@ -54,21 +53,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for machine in search_results %}
-                        <tr>
-                            <td>{{ machine.model.name }}</td>
-                            <td>{{ machine.engine_model.name }}</td>
-                            <td>{{ machine.transmission_model.name }}</td>
-                            <td>{{ machine.drive_axle_model.name }}</td>
-                            <td class="steer-axel" onclick="window.location.href='{% url 'detailed_info' %}?serial_number={{ machine.serial_number }}'">
-                                {{ machine.steer_axle_model.name }}
-                            </td>
-                        </tr>
-                        {% endfor %}
+                        {% if search_results %}
+                            {% for machine in search_results %}
+                            <tr>
+                                <td>{{ machine.model.name }}</td>
+                                <td>{{ machine.engine_model.name }}</td>
+                                <td>{{ machine.transmission_model.name }}</td>
+                                <td>{{ machine.drive_axle_model.name }}</td>
+                                <td class="steer-axel" onclick="window.location.href='{% url 'detailed_info_unauth' %}?serial_number={{ machine.serial_number }}'">
+                                    {{ machine.steer_axle_model.name }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="5" style="text-align: center; color: gray;">No record found</td>
+                            </tr>
+                        {% endif %}
                     </tbody>
                 </table>
             </div>
-            {% endif %}
         </div>
         {% endblock %}
     </main>

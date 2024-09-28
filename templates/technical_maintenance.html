@@ -21,31 +21,31 @@
 {% block content %}
     <div class="main-title">Technical Maintenance for {{ machine.model.name }} with Serial Number {{ machine.serial_number }} </div>
     <form method="GET" action="{% url 'technical_maintenance' %}">
-                <label>
-                    <input type="text" name="serial_number" placeholder="Enter machine serial number">
-                </label>
-                <button type="submit">Search</button>
-            </form>
+        <label>
+            <input type="text" name="serial_number" placeholder="Enter machine serial number">
+        </label>
+        <button type="submit">Search</button>
+    </form>
     <div class="info-text">Details of technical maintenance for your machinery.</div>
-            <div class="navigation-buttons">
-                <div id="general-info" class="general-info">General Information</div>                                   
-                <div id="technical-maintenance" class="green-button">Technical Maintenance</div>
-                <div id="claims" class="claims-buttons">Claims</div>
-            </div>
-    {% if maintenances_records %}
-        <div class="search-results-detailed">
-            <table class="maintenance-table">
-                <thead>
-                    <tr>
-                        <th>Maintenance Type</th>
-                        <th>Maintenance Date</th>
-                        <th>Operating Hours</th>
-                        <th>Order Number</th>
-                        <th>Order Date</th>
-                        <th>Service Company</th>
-                    </tr>
-                </thead>
-                <tbody>
+    <div class="navigation-buttons">
+        <div id="general-info" class="general-info">General Information</div>                                   
+        <div id="technical-maintenance" class="green-button">Technical Maintenance</div>
+        <div id="claims" class="claims-buttons">Claims</div>
+    </div>
+    <div class="search-results-detailed">
+        <table class="maintenance-table">
+            <thead>
+                <tr>
+                    <th>Maintenance Type</th>
+                    <th>Maintenance Date</th>
+                    <th>Operating Hours</th>
+                    <th>Order Number</th>
+                    <th>Order Date</th>
+                    <th>Service Company</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if maintenances_records %}
                     {% for record in maintenances_records %}
                         <tr {% if can_edit_or_add %} onclick="window.location.href='{% url 'edit_service_record' record.pk %}'" {% endif %}>
                             <td>{{ record.maintenance_type.name }}</td>
@@ -56,35 +56,17 @@
                             <td>{{ record.service_company.name }}</td>
                         </tr>
                     {% endfor %}
-                    {% if can_edit_or_add %}
-                        <tr onclick="window.location.href='{% url 'create_service_record' %}'">
-                            <td colspan="6" style="text-align: center; color: gray;">Add new maintenance record</td>
-                        </tr>
-                    {% endif %}
-                </tbody>
-            </table>
-        </div>
-    {% else %}
-        <div class="search-results">
-            <table class="maintenance-table">
-                <thead>
+                {% else %}
                     <tr>
-                        <th>Maintenance Type</th>
-                        <th>Maintenance Date</th>
-                        <th>Operating Hours</th>
-                        <th>Order Number</th>
-                        <th>Order Date</th>
-                        <th>Service Company</th>
+                        <td colspan="6" style="text-align: center; color: gray;">No records found</td>
                     </tr>
-                </thead>
-                <tbody>
-                    {% if can_edit_or_add %}
-                        <tr onclick="window.location.href='{% url 'create_service_record' %}'">
-                            <td colspan="6" style="text-align: center; color: gray;">Add new maintenance record</td>
-                        </tr>
-                    {% endif %}
-                </tbody>
-            </table>
-        </div>
-    {% endif %}
+                {% endif %}
+                {% if can_edit_or_add %}
+                    <tr onclick="window.location.href='{% url 'create_service_record' %}'">
+                        <td colspan="6" style="text-align: center; color: gray;">Add new maintenance record</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

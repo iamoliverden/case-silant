@@ -47,7 +47,7 @@
                             <td>{{ machine.engine_model.name }}</td>
                             <td>{{ machine.transmission_model.name }}</td>
                             <td>{{ machine.drive_axle_model.name }}</td>
-                            <td class="steer-axel" onclick="window.location.href='{% url 'detailed_info' %}?serial_number={{ machine.serial_number }}'">
+                            <td class="steer-axel" onclick="window.location.href='{% url 'detailed_info_auth' %}?serial_number={{ machine.serial_number }}'">
                                 {{ machine.steer_axle_model.name }}
                             </td>
                         </tr>

@@ -120,11 +120,11 @@ button {
     border-radius: 5px;
 }
 
-.info-text, .search-results {
+.info-text {
     border: 1px solid #163E6C;
     border-radius: 15px;
     padding: 10px;
-    margin-top: 20px;
+    margin: 20px 0;
     background-color: #EBE6D6;
 }
 

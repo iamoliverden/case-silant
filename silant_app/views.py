@@ -19,13 +19,19 @@ def search(request):
     return render(request, 'landing_page.html', {'search_results': search_results})
 
 
-@login_required
-def detailed_info(request):
+
+def detailed_info_unauth(request):
     serial_number = request.GET.get('serial_number')
     machine = Machine.objects.filter(serial_number=serial_number).first()
     user_name = request.user.username
-    return render(request, 'detailed_info.html', {'machine': machine, 'user_name': user_name})
+    return render(request, 'detailed_info_unauth.html', {'machine': machine, 'user_name': user_name})
 
+@login_required
+def detailed_info_auth(request):
+    serial_number = request.GET.get('serial_number')
+    machine = Machine.objects.filter(serial_number=serial_number).first()
+    user_name = request.user.username
+    return render(request, 'detailed_info_auth.html', {'machine': machine, 'user_name': user_name})
 
 @login_required
 def technical_maintenance(request):
@@ -173,6 +179,11 @@ class TechnicalMaintenanceCreateView(LoginRequiredMixin, MaintenanceRecordPermis
 
     def get_success_url(self):
         return reverse_lazy('technical_maintenance') + f'?serial_number={self.object.machine.serial_number}'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user'] = self.request.user
+        return context
 
 
 class TechnicalMaintenanceUpdateView(LoginRequiredMixin, MaintenanceRecordPermissions, UpdateView):
