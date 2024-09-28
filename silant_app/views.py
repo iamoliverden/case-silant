@@ -63,11 +63,17 @@ class ClaimListView(LoginRequiredMixin, ClaimPermissions, ListView):
         machine = Machine.objects.filter(serial_number=serial_number).first()
         return Claim.objects.filter(machine=machine) if machine else Claim.objects.none()
 
+    def can_edit_or_add(self):
+        # Check if the user belongs to groups 1, 3, or 5
+        user_groups = self.request.user.groups.values_list('id', flat=True)
+        can_edit_or_add = any(group_id in [1, 3, 5] for group_id in user_groups)
+        return can_edit_or_add
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['user_name'] = self.request.user.username
+        context['can_edit_or_add'] = self.can_edit_or_add()
         return context
-
 
 
 

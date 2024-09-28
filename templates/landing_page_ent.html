@@ -42,9 +42,9 @@
              <div class="info-text">Service Company: {{ user_name }} </div>
              <div class="info-text">Information about the equipment and technical specifications of your machinery.</div>
                     <div class="navigation-buttons">
-                        <div class="green-button">General Information</div>                                   
-                        <div class="to-buttons">Technical Maintenance</div>
-                        <div class="claims-buttons">Claims</div>
+                        <div id="general-info" class="green-button">General Information</div>                                   
+                        <div id="technical-maintenance" class="to-buttons">Technical Maintenance</div>
+                        <div id="claims" class="claims-buttons">Claims</div>
                     </div>
                 {% if search_results %}
                         <div class="search-results">
@@ -85,6 +85,9 @@
             <div class="footer-text" id="footer-app-name">Loading...</div>
         </div>
     </footer>
-
+{% block my_script %}
+    <script src="{% static 'JS/dynamic_content.js' %}"></script>
+    <script src="{% static 'JS/redirections.js' %}"></script>
+{% endblock %}
 </body>
 </html>

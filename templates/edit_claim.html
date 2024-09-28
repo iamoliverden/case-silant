@@ -1,5 +1,3 @@
-# edit_claim.html
-
 {% extends 'landing_page.html' %}
 {% load static %}
 
@@ -26,9 +24,41 @@
     <div class="edit-record">
         <form method="post">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Save Changes</button>
+            <div class="form-group">
+                <label for="{{ form.failure_date.id_for_label }}" class="form-label">Failure Date</label>
+                <div class="form-field">{{ form.failure_date }}</div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.operating_hours.id_for_label }}" class="form-label">Operating Hours</label>
+                <div class="form-field">{{ form.operating_hours }}</div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.failure_unit.id_for_label }}" class="form-label">Failure Unit</label>
+                <div class="form-field">{{ form.failure_unit }}</div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.failure_description.id_for_label }}" class="form-label">Failure Description</label>
+                <div class="form-field">{{ form.failure_description }}</div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.recovery_method.id_for_label }}" class="form-label">Recovery Method</label>
+                <div class="form-field">{{ form.recovery_method }}</div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.used_spare_parts.id_for_label }}" class="form-label">Used Spare Parts</label>
+                <div class="form-field">{{ form.used_spare_parts }}</div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.recovery_date.id_for_label }}" class="form-label">Recovery Date</label>
+                <div class="form-field">{{ form.recovery_date }}</div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.service_company.id_for_label }}" class="form-label">Service Company</label>
+                <div class="form-field">{{ form.service_company }}</div>
+            </div>
+            <div class="submit-button">
+                <button type="submit">Save Changes</button>
+            </div>
         </form>
     </div>
 {% endblock %}
-

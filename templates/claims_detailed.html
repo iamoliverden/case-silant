@@ -19,7 +19,7 @@
     <div class="info-text">Detailed information about the selected claim.</div>
     {% if claim %}
         <div class="search-results-detailed">
-            <table class="machine-details-table">
+            <table class="machine-details-table" onclick="window.location.href='{% url 'edit_claim' claim.pk %}'">
                 <tbody>
                     <tr>
                         <td>Failure Date</td>
@@ -67,4 +67,3 @@
 
 {% block footer %}
 {% endblock %}
-

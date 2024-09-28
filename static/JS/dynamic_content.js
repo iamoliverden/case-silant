@@ -6,20 +6,28 @@ const appName = 'My Silant 2022';
 
 // Update the phone number in the HTML
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('dynamic_content.js loaded');
+
     const phoneNumberElement = document.getElementById('phone-number');
     const footerPhoneNumberElement = document.getElementById('footer-phone-number');
     const footerAppNameElement = document.getElementById('footer-app-name');
 
     if (phoneNumberElement) {
         phoneNumberElement.textContent = phoneNumber;
+    } else {
+        console.log('Element with ID "phone-number" not found');
     }
 
     if (footerPhoneNumberElement) {
         footerPhoneNumberElement.textContent = phoneNumber;
+    } else {
+        console.log('Element with ID "footer-phone-number" not found');
     }
 
     if (footerAppNameElement) {
         footerAppNameElement.textContent = appName;
+    } else {
+        console.log('Element with ID "footer-app-name" not found');
     }
 
     // Add click event listener to the logo
@@ -38,5 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.location.href = loggedOutUrl;
             }
         });
+    } else {
+        console.log('Element with ID "logo" or "is-logged-in" not found');
     }
 });
