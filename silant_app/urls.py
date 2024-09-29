@@ -19,4 +19,7 @@ urlpatterns = [
     path('edit_service_record/<int:pk>/', TechnicalMaintenanceUpdateView.as_view(), name='edit_service_record'),
     path('create_claim/', ClaimCreateView.as_view(), name='create_claim'),
     path('edit_claim/<int:pk>/', ClaimUpdateView.as_view(), name='edit_claim'),
+    path('create_machine/', MachineCreateView.as_view(), name='create_machine'),
+    path('edit_machine/<int:pk>/', MachineUpdateView.as_view(), name='edit-machine'),
+
 ]

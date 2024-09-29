@@ -96,3 +96,36 @@ class ClaimUpdateForm(forms.ModelForm):
             self.add_error('recovery_date', 'Recovery date must be after the failure date.')
 
         return cleaned_data
+
+
+class MachineCreateForm(forms.ModelForm):
+    shipment_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    class Meta:
+        model = Machine
+        fields = [
+            'serial_number', 'model', 'engine_model', 'engine_serial_number',
+            'transmission_model', 'transmission_serial_number', 'drive_axle_model',
+            'drive_axle_serial_number', 'steer_axle_model', 'steer_axle_serial_number',
+            'supply_contract', 'shipment_date', 'consignee', 'delivery_address',
+            'configuration', 'client', 'service_company'
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['client'].queryset = CustomUser.objects.filter(groups__id=4)
+
+class MachineUpdateForm(forms.ModelForm):
+    shipment_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    class Meta:
+        model = Machine
+        fields = [
+            'serial_number', 'model', 'engine_model', 'engine_serial_number',
+            'transmission_model', 'transmission_serial_number', 'drive_axle_model',
+            'drive_axle_serial_number', 'steer_axle_model', 'steer_axle_serial_number',
+            'supply_contract', 'shipment_date', 'consignee', 'delivery_address',
+            'configuration', 'client', 'service_company'
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['client'].queryset = CustomUser.objects.filter(groups__id=4)

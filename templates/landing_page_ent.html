@@ -76,6 +76,11 @@
                                 <td colspan="5" style="text-align: center; color: gray;">No record found</td>
                             </tr>
                         {% endif %}
+                        {% if is_manager %}
+                        <tr onclick="window.location.href='{% url 'create_machine' %}'">
+                            <td colspan="5" style="text-align: center; color: gray;">Add new machine</td>
+                        </tr>
+                        {% endif %}
                     </tbody>
                 </table>
             </div>

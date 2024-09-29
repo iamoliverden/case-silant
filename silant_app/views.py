@@ -19,12 +19,12 @@ def search(request):
     return render(request, 'landing_page.html', {'search_results': search_results})
 
 
-
 def detailed_info_unauth(request):
     serial_number = request.GET.get('serial_number')
     machine = Machine.objects.filter(serial_number=serial_number).first()
     user_name = request.user.username
     return render(request, 'detailed_info_unauth.html', {'machine': machine, 'user_name': user_name})
+
 
 @login_required
 def detailed_info_auth(request):
@@ -32,6 +32,7 @@ def detailed_info_auth(request):
     machine = Machine.objects.filter(serial_number=serial_number).first()
     user_name = request.user.username
     return render(request, 'detailed_info_auth.html', {'machine': machine, 'user_name': user_name})
+
 
 @login_required
 def technical_maintenance(request):
@@ -54,9 +55,14 @@ def technical_maintenance(request):
 
 class ClaimPermissions(UserPassesTestMixin):
     def test_func(self):
-        user_groups = self.request.user.groups.values_list('name', flat=True)
-        return any(group in ['Managers', 'Admins', 'Service Companies', 'Clients'] for group in user_groups)
+        user_groups = self.request.user.groups.values_list('id', flat=True)
+        return any(group_id in [1, 3, 4, 5] for group_id in user_groups)
 
+
+class MachinePermissions(UserPassesTestMixin):
+    def test_func(self):
+        user_groups = self.request.user.groups.values_list('id', flat=True)
+        return any(group_id in [1] for group_id in user_groups)
 
 
 class ClaimListView(LoginRequiredMixin, ClaimPermissions, ListView):
@@ -82,9 +88,8 @@ class ClaimListView(LoginRequiredMixin, ClaimPermissions, ListView):
         return context
 
 
-
-
 from django.views.generic import DetailView
+
 
 class ClaimDetailView(LoginRequiredMixin, ClaimPermissions, DetailView):
     model = Claim
@@ -95,11 +100,6 @@ class ClaimDetailView(LoginRequiredMixin, ClaimPermissions, DetailView):
         context = super().get_context_data(**kwargs)
         context['user_name'] = self.request.user.username
         return context
-
-
-
-
-
 
 
 def login_view(request):
@@ -125,15 +125,17 @@ def landing_page_logged_in(request):
     user_machines = Machine.objects.filter(client=request.user)
     user_name = request.user.username
     user_groups = request.user.groups.values_list('id', flat=True)
+    is_manager = request.user.groups.filter(id=1).exists()
     if any(group_id in [2, 4] for group_id in user_groups):
         return render(request, 'landing_page_auth.html', {
             'user_machines': user_machines,
-            'user_name': user_name
+            'user_name': user_name,
         })
     elif any(group_id in [1, 3, 5] for group_id in user_groups):
         return render(request, 'landing_page_ent.html', {
             'user_machines': user_machines,
-            'user_name': user_name
+            'user_name': user_name,
+            'is_manager': is_manager
         })
 
 
@@ -214,7 +216,6 @@ class TechnicalMaintenanceUpdateView(LoginRequiredMixin, MaintenanceRecordPermis
         return reverse_lazy('technical_maintenance') + f'?serial_number={self.object.machine.serial_number}'
 
 
-
 class ClaimCreateView(CreateView):
     model = Claim
     form_class = ClaimCreateForm
@@ -231,7 +232,8 @@ class ClaimCreateView(CreateView):
         form.instance.machine = form.cleaned_data['machine_serial_number']
         form.instance.downtime = (recovery_date - failure_date).days
 
-        if Claim.objects.filter(failure_date=failure_date, service_company=form.cleaned_data['service_company']).exists():
+        if Claim.objects.filter(failure_date=failure_date,
+                                service_company=form.cleaned_data['service_company']).exists():
             form.add_error('failure_date', 'A claim with this failure date already exists for this service company.')
             return self.form_invalid(form)
 
@@ -239,6 +241,7 @@ class ClaimCreateView(CreateView):
 
     def get_success_url(self):
         return reverse_lazy('claims') + f'?serial_number={self.object.machine.serial_number}'
+
 
 class ClaimUpdateView(UpdateView):
     model = Claim
@@ -266,3 +269,52 @@ class ClaimUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('claims') + f'?serial_number={self.object.machine.serial_number}'
+
+
+class MachineCreateView(MachinePermissions, CreateView):
+    model = Machine
+    form_class = MachineCreateForm
+    template_name = 'create_machine.html'
+
+    def form_valid(self, form):
+        # Add any additional validation or processing here if needed
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('detailed_info_auth') + f'?serial_number={self.object.serial_number}'
+
+    def is_manager(self):
+        # Check if the user belongs to groups 1, 3, or 5
+        user_groups = self.request.user.groups.values_list('id', flat=True)
+        is_manager = any(group_id in [1] for group_id in user_groups)
+        return is_manager
+
+
+class MachineUpdateView(MachinePermissions, UpdateView):
+    model = Machine
+    form_class = MachineUpdateForm
+    template_name = 'edit_machine.html'
+
+    def get_queryset(self):
+        serial_number = self.request.GET.get('serial_number')
+        machine = Machine.objects.filter(serial_number=serial_number).first()
+        return machine
+
+    def form_valid(self, form):
+        # Add any additional validation or processing here if needed
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('detailed_info_auth') + f'?serial_number={self.object.serial_number}'
+
+    def is_manager(self):
+        # Check if the user belongs to groups 1, 3, or 5
+        user_groups = self.request.user.groups.values_list('id', flat=True)
+        is_manager = any(group_id in [1] for group_id in user_groups)
+        return is_manager
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['machine'] = self.get_queryset()
+        context['is_manager'] = self.is_manager()
+        return context

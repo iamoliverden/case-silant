@@ -1,0 +1,151 @@
+{% extends 'landing_page.html' %}
+{% load static %}
+
+{% block header_1 %}
+
+    {% block header_2 %}
+        <div class="header-container">
+            <div class="logo">
+                <img id="logo" src="{% static 'logo/Logotype accent RGB 1.jpg' %}" alt="Logo" 
+                     data-logged-in-url="{% url 'landing_page_logged_in' %}" 
+                     data-logged-out-url="{% url 'landing_page' %}">
+                </div>
+            <input type="hidden" id="is-logged-in" value="{{ user.is_authenticated|yesno:'true,false' }}">
+            <div class="contact-info" id="phone-number">Loading...</div>
+            <div class="login-button"><a href="{% url 'logout' %}">{{ user_name }} / Logout</a></div>
+        </div>
+    {% endblock %}
+
+{% endblock %}
+
+{% block content %}
+    <div class="main-title">Edit Machine</div>
+    <div class="info-text">Edit the details of the machine.</div>
+    <div class="edit-record">
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="{{ form.serial_number.id_for_label }}" class="form-label">Serial Number</label>
+                <div class="form-field">
+                    {{ form.serial_number }}
+                    {{ form.serial_number.errors }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.model.id_for_label }}" class="form-label">Model</label>
+                <div class="form-field">
+                    {{ form.model }}
+                    {{ form.model.errors }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.engine_model.id_for_label }}" class="form-label">Engine Model</label>
+                <div class="form-field">
+                    {{ form.engine_model }}
+                    {{ form.engine_model.errors }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.engine_serial_number.id_for_label }}" class="form-label">Engine Serial Number</label>
+                <div class="form-field">
+                    {{ form.engine_serial_number }}
+                    {{ form.engine_serial_number.errors }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.transmission_model.id_for_label }}" class="form-label">Transmission Model</label>
+                <div class="form-field">
+                    {{ form.transmission_model }}
+                    {{ form.transmission_model.errors }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.transmission_serial_number.id_for_label }}" class="form-label">Transmission Serial Number</label>
+                <div class="form-field">
+                    {{ form.transmission_serial_number }}
+                    {{ form.transmission_serial_number.errors }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.drive_axle_model.id_for_label }}" class="form-label">Drive Axle Model</label>
+                <div class="form-field">
+                    {{ form.drive_axle_model }}
+                    {{ form.drive_axle_model.errors }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.drive_axle_serial_number.id_for_label }}" class="form-label">Drive Axle Serial Number</label>
+                <div class="form-field">
+                    {{ form.drive_axle_serial_number }}
+                    {{ form.drive_axle_serial_number.errors }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.steer_axle_model.id_for_label }}" class="form-label">Steer Axle Model</label>
+                <div class="form-field">
+                    {{ form.steer_axle_model }}
+                    {{ form.steer_axle_model.errors }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.steer_axle_serial_number.id_for_label }}" class="form-label">Steer Axle Serial Number</label>
+                <div class="form-field">
+                    {{ form.steer_axle_serial_number }}
+                    {{ form.steer_axle_serial_number.errors }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.supply_contract.id_for_label }}" class="form-label">Supply Contract</label>
+                <div class="form-field">
+                    {{ form.supply_contract }}
+                    {{ form.supply_contract.errors }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.shipment_date.id_for_label }}" class="form-label">Shipment Date</label>
+                <div class="form-field">
+                    {{ form.shipment_date }}
+                    {{ form.shipment_date.errors }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.consignee.id_for_label }}" class="form-label">Consignee</label>
+                <div class="form-field">
+                    {{ form.consignee }}
+                    {{ form.consignee.errors }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.delivery_address.id_for_label }}" class="form-label">Delivery Address</label>
+                <div class="form-field">
+                    {{ form.delivery_address }}
+                    {{ form.delivery_address.errors }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.configuration.id_for_label }}" class="form-label">Configuration</label>
+                <div class="form-field">
+                    {{ form.configuration }}
+                    {{ form.configuration.errors }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.client.id_for_label }}" class="form-label">Client</label>
+                <div class="form-field">
+                    {{ form.client }}
+                    {{ form.client.errors }}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="{{ form.service_company.id_for_label }}" class="form-label">Service Company</label>
+                <div class="form-field">
+                    {{ form.service_company }}
+                    {{ form.service_company.errors }}
+                </div>
+            </div>
+            <div class="submit-button">
+                <button type="submit">Save Changes</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}
