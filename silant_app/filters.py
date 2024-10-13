@@ -4,7 +4,6 @@ import django_filters
 from .models import *
 from django import forms
 
-
 class MachineFilter(django_filters.FilterSet):
     serial_number = django_filters.CharFilter(lookup_expr='icontains')
     model = django_filters.CharFilter(field_name='model__name', lookup_expr='icontains')
@@ -13,7 +12,6 @@ class MachineFilter(django_filters.FilterSet):
     class Meta:
         model = Machine
         fields = ['serial_number', 'model', 'shipment_date']
-
 
 class ClaimFilter(django_filters.FilterSet):
     machine_serial_number = django_filters.CharFilter(field_name='machine__serial_number', lookup_expr='icontains', label='Machine Serial Number')

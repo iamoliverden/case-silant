@@ -9,85 +9,85 @@
 </head>
 <body>
 {% block header_1 %}
-    <header>
-        <div class="super-header">
-            {% block header_2 %}
-                <div class="header-container">
-                    <div class="logo">
-                        <img id="logo" src="{% static 'logo/Logotype accent RGB 1.jpg' %}" alt="Logo" 
-                            data-logged-in-url="{% url 'landing_page_logged_in' %}" 
-                            data-logged-out-url="{% url 'landing_page' %}">
-                    </div>
-                    <input type="hidden" id="is-logged-in" value="{{ user.is_authenticated|yesno:'true,false' }}">
-                    <div class="contact-info" id="phone-number">Loading...</div>
-                    <div class="login-button"><a href="{% url 'logout' %}">{{ user_name }} / Logout</a></div>
-                </div>
-            {% endblock %}
-            <div class="electronic-service-book">Electronic Service Book "My Silant"</div>
+<header>
+    <div class="super-header">
+        {% block header_2 %}
+        <div class="header-container">
+            <div class="logo">
+                <img id="logo" src="{% static 'logo/Logotype accent RGB 1.jpg' %}" alt="Logo"
+                     data-logged-in-url="{% url 'landing_page_logged_in' %}"
+                     data-logged-out-url="{% url 'landing_page' %}">
+            </div>
+            <input type="hidden" id="is-logged-in" value="{{ user.is_authenticated|yesno:'true,false' }}">
+            <div class="contact-info" id="phone-number">Loading...</div>
+            <div class="login-button"><a href="{% url 'logout' %}">{{ user_name }} / Logout</a></div>
         </div>
-    </header>
+        {% endblock %}
+        <div class="electronic-service-book">Electronic Service Book "My Silant"</div>
+    </div>
+</header>
 {% endblock %}
-    <main>
-        <div class="main-container">
-            {% block content %}
-            <div class="main-title">Check the claims for Silant machinery</div>
-            <form method="GET" action="{% url 'claims' %}">
-                {{ filter.form.as_p }}
-                <button type="submit">Search</button>
-            </form>
-            <div class="info-text">Information about the claims for your machinery.</div>
-            <div class="navigation-buttons">
-                <div id="general-info" class="general-info">General Information</div>                                   
-                <div id="technical-maintenance" class="to-button">Technical Maintenance</div>
-                <div id="claims" class="green-button">Claims</div>
-            </div>
-            <div class="search-results">
-                <table class="machine-table">
-                    <thead>
-                        <tr>
-                            <th>Failure Date</th>
-                            <th>Operating Hours</th>
-                            <th>Failure Unit</th>
-                            <th>Failure Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% if claims %}
-                            {% for claim in claims %}
-                                <tr onclick="window.location.href='{% url 'claims_detailed' claim.pk %}'">
-                                    <td>{{ claim.failure_date }}</td>
-                                    <td>{{ claim.operating_hours }}</td>
-                                    <td>{{ claim.failure_unit.name }}</td>
-                                    <td>{{ claim.failure_description }}</td>
-                                </tr>
-                            {% endfor %}
-                        {% else %}
-                            <tr>
-                                <td colspan="4" style="text-align: center; color: gray;">No claims found</td>
+<main>
+    <div class="main-container">
+        {% block content %}
+        <div class="main-title">Check the claims for Silant machinery</div>
+        <form method="GET" action="{% url 'claims' %}">
+            {{ filter.form.as_p }}
+            <button type="submit">Search</button>
+        </form>
+        <div class="info-text">Information about the claims for your machinery.</div>
+        <div class="navigation-buttons">
+            <div id="general-info" class="general-info">General Information</div>
+            <div id="technical-maintenance" class="to-button">Technical Maintenance</div>
+            <div id="claims" class="green-button">Claims</div>
+        </div>
+        <div class="search-results">
+            <table class="machine-table">
+                <thead>
+                    <tr>
+                        <th>Failure Date</th>
+                        <th>Operating Hours</th>
+                        <th>Failure Unit</th>
+                        <th>Failure Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if claims %}
+                        {% for claim in claims %}
+                            <tr onclick="window.location.href='{% url 'claims_detailed' claim.pk %}'">
+                                <td>{{ claim.failure_date }}</td>
+                                <td>{{ claim.operating_hours }}</td>
+                                <td>{{ claim.failure_unit.name }}</td>
+                                <td>{{ claim.failure_description }}</td>
                             </tr>
-                        {% endif %}
-                        {% if can_edit_or_add %}
-                        <tr onclick="window.location.href='{% url 'create_claim' %}'">
-                            <td colspan="4" style="text-align: center; color: gray;">Add new claim</td>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="4" style="text-align: center; color: gray;">No claims found</td>
                         </tr>
-                        {% endif %}
-                    </tbody>
-                </table>
-            </div>
-            {% endblock %}
+                    {% endif %}
+                    {% if can_edit_or_add %}
+                    <tr onclick="window.location.href='{% url 'create_claim' %}'">
+                        <td colspan="4" style="text-align: center; color: gray;">Add new claim</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
         </div>
-    </main>
+        {% endblock %}
+    </div>
+</main>
 {% block footer %}
-    <footer>
-        <div class="footer-container">
-            <div class="contact-info" id="footer-phone-number">Loading...</div>
-            <div class="footer-text" id="footer-app-name">Loading...</div>
-        </div>
-    </footer>
+<footer>
+    <div class="footer-container">
+        <div class="contact-info" id="footer-phone-number">Loading...</div>
+        <div class="footer-text" id="footer-app-name">Loading...</div>
+    </div>
+</footer>
 {% endblock %}
 {% block my_script %}
-    <script src="{% static 'JS/dynamic_content.js' %}"></script>
-    <script src="{% static 'JS/redirections.js' %}"></script>
+<script src="{% static 'JS/dynamic_content.js' %}"></script>
+<script src="{% static 'JS/redirections.js' %}"></script>
 {% endblock %}
 </body>
 </html>
