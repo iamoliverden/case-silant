@@ -1,5 +1,5 @@
 -- Connect to the SQLite database
-sqlite3 bd.sqlite3
+-- sqlite3 bd.sqlite3 (after migration)
 
 -- Insert data into the auth_group table
 INSERT INTO auth_group (id, name) VALUES
