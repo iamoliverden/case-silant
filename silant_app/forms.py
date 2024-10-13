@@ -13,7 +13,8 @@ class TechnicalMaintenanceCreateForm(forms.ModelForm):
 
     class Meta:
         model = TechnicalMaintenance
-        fields = ['machine_serial_number', 'maintenance_type', 'maintenance_date', 'order_number', 'order_date', 'service_company']
+        fields = ['machine_serial_number', 'maintenance_type', 'maintenance_date', 'order_number', 'order_date',
+                  'service_company']
 
     def clean(self):
         cleaned_data = super().clean()
@@ -45,11 +46,11 @@ class CustomUserCreationForm(UserCreationForm):
         model = CustomUser
         fields = ('username', 'email', 'is_service_company')
 
+
 class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
         fields = ('username', 'email', 'is_service_company')
-
 
 
 class ClaimCreateForm(forms.ModelForm):
@@ -60,7 +61,8 @@ class ClaimCreateForm(forms.ModelForm):
 
     class Meta:
         model = Claim
-        fields = ['machine_serial_number', 'failure_date', 'operating_hours', 'failure_unit', 'failure_description', 'recovery_method', 'used_spare_parts', 'recovery_date', 'service_company']
+        fields = ['machine_serial_number', 'failure_date', 'operating_hours', 'failure_unit', 'failure_description',
+                  'recovery_method', 'used_spare_parts', 'recovery_date', 'service_company']
 
     def clean(self):
         cleaned_data = super().clean()
@@ -77,6 +79,7 @@ class ClaimCreateForm(forms.ModelForm):
 
         return cleaned_data
 
+
 class ClaimUpdateForm(forms.ModelForm):
     service_company = forms.ModelChoiceField(queryset=ServiceCompanyReference.objects.all(), label="Service Company")
     failure_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
@@ -84,7 +87,8 @@ class ClaimUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Claim
-        fields = ['failure_date', 'operating_hours', 'failure_unit', 'failure_description', 'recovery_method', 'used_spare_parts', 'recovery_date', 'service_company']
+        fields = ['failure_date', 'operating_hours', 'failure_unit', 'failure_description', 'recovery_method',
+                  'used_spare_parts', 'recovery_date', 'service_company']
 
     def clean(self):
         cleaned_data = super().clean()
@@ -100,6 +104,7 @@ class ClaimUpdateForm(forms.ModelForm):
 
 class MachineCreateForm(forms.ModelForm):
     shipment_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+
     class Meta:
         model = Machine
         fields = [
@@ -114,8 +119,10 @@ class MachineCreateForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['client'].queryset = CustomUser.objects.filter(groups__id=4)
 
+
 class MachineUpdateForm(forms.ModelForm):
     shipment_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+
     class Meta:
         model = Machine
         fields = [

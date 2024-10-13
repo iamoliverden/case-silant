@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'silant_app.apps.SilantAppConfig',
+    'django_filters',
+    'django_tables2'
 ]
 
 MIDDLEWARE = [

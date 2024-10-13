@@ -32,9 +32,7 @@
             {% block content %}
             <div class="main-title">Check the claims for Silant machinery</div>
             <form method="GET" action="{% url 'claims' %}">
-                <label>
-                    <input type="text" name="serial_number" placeholder="Enter machine serial number">
-                </label>
+                {{ filter.form.as_p }}
                 <button type="submit">Search</button>
             </form>
             <div class="info-text">Information about the claims for your machinery.</div>

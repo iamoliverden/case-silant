@@ -6,7 +6,9 @@ from django.urls import reverse_lazy
 from .forms import *
 from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
+from django_filters.views import *
+from .filters import *
 
 
 def landing_page(request):
@@ -15,7 +17,10 @@ def landing_page(request):
 
 def search(request):
     serial_number = request.GET.get('serial_number')
-    search_results = Machine.objects.filter(serial_number=serial_number) if serial_number else None
+    if serial_number:
+        search_results = Machine.objects.filter(serial_number=serial_number).order_by('shipment_date')
+    else:
+        search_results = None
     return render(request, 'landing_page.html', {'search_results': search_results})
 
 
@@ -38,7 +43,8 @@ def detailed_info_auth(request):
 def technical_maintenance(request):
     serial_number = request.GET.get('serial_number')
     machine = Machine.objects.filter(serial_number=serial_number).first()
-    maintenances = TechnicalMaintenance.objects.filter(machine=machine) if machine else None
+    maintenances = TechnicalMaintenance.objects.filter(machine=machine).order_by(
+        'maintenance_date') if machine else None
     user_name = request.user.username
 
     # Check if the user belongs to groups 1, 3, or 5
@@ -69,11 +75,15 @@ class ClaimListView(LoginRequiredMixin, ClaimPermissions, ListView):
     model = Claim
     template_name = 'claims.html'
     context_object_name = 'claims'
+    filterset_class = ClaimFilter
 
     def get_queryset(self):
         serial_number = self.request.GET.get('serial_number')
         machine = Machine.objects.filter(serial_number=serial_number).first()
-        return Claim.objects.filter(machine=machine) if machine else Claim.objects.none()
+        if machine:
+            return Claim.objects.filter(machine=machine).order_by('failure_date')
+        else:
+            return Claim.objects.none()
 
     def can_edit_or_add(self):
         # Check if the user belongs to groups 1, 3, or 5
@@ -83,12 +93,13 @@ class ClaimListView(LoginRequiredMixin, ClaimPermissions, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['filter'] = self.get_filterset(self.filterset_class)
         context['user_name'] = self.request.user.username
         context['can_edit_or_add'] = self.can_edit_or_add()
         return context
 
-
-from django.views.generic import DetailView
+    def get_filterset(self, filterset_class):
+        return filterset_class(self.request.GET, queryset=self.get_queryset())
 
 
 class ClaimDetailView(LoginRequiredMixin, ClaimPermissions, DetailView):
@@ -122,7 +133,7 @@ def logout_view(request):
 
 @login_required
 def landing_page_logged_in(request):
-    user_machines = Machine.objects.filter(client=request.user)
+    user_machines = Machine.objects.filter(client=request.user).order_by('shipment_date')
     user_name = request.user.username
     user_groups = request.user.groups.values_list('id', flat=True)
     is_manager = request.user.groups.filter(id=1).exists()
@@ -143,7 +154,10 @@ def landing_page_logged_in(request):
 def search_ent(request):
     serial_number = request.GET.get('serial_number')
     user_name = request.user.username
-    search_results = Machine.objects.filter(serial_number=serial_number) if serial_number else None
+    if serial_number:
+        search_results = Machine.objects.filter(serial_number=serial_number).order_by('shipment_date')
+    else:
+        search_results = None
     return render(request, 'landing_page_ent.html', {
         'search_results': search_results,
         'user_name': user_name
