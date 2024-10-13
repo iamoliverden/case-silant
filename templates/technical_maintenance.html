@@ -1,13 +1,11 @@
 {% extends 'landing_page.html' %}
 {% load static %}
-
 {% block header_1 %}
-
     {% block header_2 %}
         <div class="header-container">
             <div class="logo">
-                <img id="logo" src="{% static 'logo/Logotype accent RGB 1.jpg' %}" alt="Logo" 
-                     data-logged-in-url="{% url 'landing_page_logged_in' %}" 
+                <img id="logo" src="{% static 'logo/Logotype accent RGB 1.jpg' %}" alt="Logo"
+                     data-logged-in-url="{% url 'landing_page_logged_in' %}"
                      data-logged-out-url="{% url 'landing_page' %}">
             </div>
             <input type="hidden" id="is-logged-in" value="{{ user.is_authenticated|yesno:'true,false' }}">
@@ -15,20 +13,16 @@
             <div class="login-button"><a href="{% url 'logout' %}">{{ user_name }} / Logout</a></div>
         </div>
     {% endblock %}
-
 {% endblock %}
-
 {% block content %}
     <div class="main-title">Technical Maintenance for {{ machine.model.name }} with Serial Number {{ machine.serial_number }} </div>
     <form method="GET" action="{% url 'technical_maintenance' %}">
-        <label>
-            <input type="text" name="serial_number" placeholder="Enter machine serial number">
-        </label>
+        {{ filter.form.as_p }}
         <button type="submit">Search</button>
     </form>
     <div class="info-text">Details of technical maintenance for your machinery.</div>
     <div class="navigation-buttons">
-        <div id="general-info" class="general-info">General Information</div>                                   
+        <div id="general-info" class="general-info">General Information</div>
         <div id="technical-maintenance" class="green-button">Technical Maintenance</div>
         <div id="claims" class="claims-buttons">Claims</div>
     </div>

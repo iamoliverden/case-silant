@@ -1,17 +1,22 @@
 # views.py
 
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
+
 from django.contrib import messages
 from django.urls import reverse_lazy
-from .forms import *
+from silant_app.forms import *
 from django.views.generic.edit import CreateView, UpdateView
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import ListView, DetailView
-from django_filters.views import *
-from .filters import *
 
+from django.views.generic import DetailView
+from silant_app.filters import *
+from silant_app.views.views_permissions import *
+
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView
+from silant_app.filters import TechnicalMaintenanceFilter
+from silant_app.models import TechnicalMaintenance, Machine, Claim
 
 def landing_page(request):
     return render(request, 'landing_page.html')
@@ -41,37 +46,6 @@ def detailed_info_auth(request):
     return render(request, 'detailed_info_auth.html', {'machine': machine, 'user_name': user_name})
 
 
-@login_required
-def technical_maintenance(request):
-    serial_number = request.GET.get('serial_number')
-    machine = Machine.objects.filter(serial_number=serial_number).first()
-    maintenances = TechnicalMaintenance.objects.filter(machine=machine).order_by(
-        'maintenance_date') if machine else None
-    user_name = request.user.username
-
-    # Check if the user belongs to groups 1, 3, or 5
-    user_groups = request.user.groups.values_list('id', flat=True)
-    can_edit_or_add = any(group_id in [1, 3, 5] for group_id in user_groups)
-
-    return render(request, 'technical_maintenance.html', {
-        'machine': machine,
-        'maintenances_records': maintenances,
-        'user_name': user_name,
-        'can_edit_or_add': can_edit_or_add
-    })
-
-
-class ClaimPermissions(UserPassesTestMixin):
-    def test_func(self):
-        user_groups = self.request.user.groups.values_list('id', flat=True)
-        return any(group_id in [1, 3, 4, 5] for group_id in user_groups)
-
-
-class MachinePermissions(UserPassesTestMixin):
-    def test_func(self):
-        user_groups = self.request.user.groups.values_list('id', flat=True)
-        return any(group_id in [1] for group_id in user_groups)
-
 
 class ClaimListView(LoginRequiredMixin, ClaimPermissions, ListView):
     model = Claim
@@ -80,8 +54,16 @@ class ClaimListView(LoginRequiredMixin, ClaimPermissions, ListView):
     filterset_class = ClaimFilter
 
     def get_queryset(self):
-        queryset = Claim.objects.all()
-        self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
+        user = self.request.user
+        user_groups = user.groups.values_list('id', flat=True)
+
+        if 4 in user_groups:
+            machine_ids = Machine.objects.filter(client=user).values_list('id', flat=True)
+            queryset = Claim.objects.filter(machine__id__in=machine_ids)
+        else:
+            queryset = Claim.objects.all()
+
+        self.filterset = self.filterset_class(self.request.GET, queryset=queryset, user=user)
         return self.filterset.qs
 
     def get_context_data(self, **kwargs):
@@ -96,7 +78,8 @@ class ClaimListView(LoginRequiredMixin, ClaimPermissions, ListView):
         return any(group_id in [1, 3, 5] for group_id in user_groups)
 
 
-class ClaimDetailView(LoginRequiredMixin, ClaimPermissions, DetailView):
+
+class ClaimDetailView(LoginRequiredMixin, ClaimPermissions, GroupFourPermission, DetailView):
     model = Claim
     template_name = 'claims_detailed.html'
     context_object_name = 'claim'
@@ -144,24 +127,8 @@ def landing_page_logged_in(request):
         })
 
 
-@login_required
-def search_ent(request):
-    serial_number = request.GET.get('serial_number')
-    user_name = request.user.username
-    if serial_number:
-        search_results = Machine.objects.filter(serial_number=serial_number).order_by('shipment_date')
-    else:
-        search_results = None
-    return render(request, 'landing_page_ent.html', {
-        'search_results': search_results,
-        'user_name': user_name
-    })
 
 
-class MaintenanceRecordPermissions(UserPassesTestMixin):
-    def test_func(self):
-        user_groups = self.request.user.groups.values_list('name', flat=True)
-        return any(group in ['Service Companies', 'Managers', 'Admins'] for group in user_groups)
 
 
 class TechnicalMaintenanceCreateView(LoginRequiredMixin, MaintenanceRecordPermissions, CreateView):
@@ -325,4 +292,73 @@ class MachineUpdateView(MachinePermissions, UpdateView):
         context = super().get_context_data(**kwargs)
         context['machine'] = self.get_queryset()
         context['is_manager'] = self.is_manager()
+        return context
+
+
+
+
+
+
+
+class TechnicalMaintenanceListView(LoginRequiredMixin, MaintenancePermissions, GroupFourPermission, ListView):
+    model = TechnicalMaintenance
+    template_name = 'technical_maintenance.html'
+    context_object_name = 'maintenances_records'
+    filterset_class = TechnicalMaintenanceFilter
+
+    def get_queryset(self):
+        user = self.request.user
+        user_groups = user.groups.values_list('id', flat=True)
+
+        if 4 in user_groups:
+            machine_ids = Machine.objects.filter(client=user).values_list('id', flat=True)
+            queryset = TechnicalMaintenance.objects.filter(machine__id__in=machine_ids)
+        else:
+            queryset = TechnicalMaintenance.objects.all()
+
+        self.filterset = self.filterset_class(self.request.GET, queryset=queryset, user=user)
+        return self.filterset.qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        serial_number = self.request.GET.get('serial_number')
+        machine = Machine.objects.filter(serial_number=serial_number).first()
+        context['filter'] = self.filterset
+        context['user_name'] = self.request.user.username
+        context['machine'] = machine
+        context['can_edit_or_add'] = self.can_edit_or_add()
+        return context
+
+    def can_edit_or_add(self):
+        user_groups = self.request.user.groups.values_list('id', flat=True)
+        return any(group_id in [1, 3, 5] for group_id in user_groups)
+
+
+
+
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import ListView
+from silant_app.filters import GeneralInformationFilter
+from silant_app.models import Machine
+
+
+
+class GeneralInformationListView(LoginRequiredMixin, GeneralInformationPermissions, ListView):
+    model = Machine
+    template_name = 'landing_page_ent.html'
+    context_object_name = 'search_results'
+    filterset_class = GeneralInformationFilter
+
+    def get_queryset(self):
+        queryset = Machine.objects.all()
+        self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
+        return self.filterset.qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter'] = self.filterset
+        context['user_name'] = self.request.user.username
+        context['is_manager'] = self.request.user.groups.filter(id=1).exists()
         return context

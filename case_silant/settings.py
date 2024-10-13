@@ -138,3 +138,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # authorization using the custom user
 
 AUTH_USER_MODEL = 'silant_app.CustomUser'
+
+# forbid registration
+
+ACCOUNT_ADAPTER = 'silan_app.adapter.MyAccountAdapter'

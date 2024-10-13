@@ -106,14 +106,6 @@ form {
     margin: 20px 0;
 }
 
-input[type="text"] {
-    padding: 10px;
-    margin-right: 10px;
-    width: 300px;
-    border: 1px solid #163E6C;
-    border-radius: 5px;
-}
-
 button {
     padding: 10px 20px;
     border: 1px solid #163E6C;
@@ -321,3 +313,14 @@ button {
             text-align: left;
             margin-top: 20px;
         }
+
+
+
+
+input[type="text"], select, input[type="date"], input[type="number"] {
+    padding: 10px;
+    margin-right: 10px;
+    width: 300px;
+    border: 1px solid #163E6C;
+    border-radius: 5px;
+}
