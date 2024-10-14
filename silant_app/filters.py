@@ -84,58 +84,6 @@ class ClaimFilter(django_filters.FilterSet):
             else:
                 self.filters['serial_number'].queryset = Machine.objects.all()
 
-class GeneralInformationFilter(django_filters.FilterSet):
-    serial_number = django_filters.CharFilter(
-        field_name='serial_number',
-        lookup_expr='icontains',
-        label='Machine Serial Number',
-        widget=forms.TextInput()
-    )
-    machine_model = django_filters.ModelChoiceFilter(
-        queryset=MachineModelReference.objects.all(),
-        field_name='model',
-        label='Machine Model',
-        widget=forms.Select()
-    )
-    engine_model = django_filters.ModelChoiceFilter(
-        queryset=EngineModelReference.objects.all(),
-        field_name='engine_model',
-        label='Engine Model',
-        widget=forms.Select()
-    )
-    transmission_model = django_filters.ModelChoiceFilter(
-        queryset=TransmissionModelReference.objects.all(),
-        field_name='transmission_model',
-        label='Transmission Model',
-        widget=forms.Select()
-    )
-    steer_axel_model = django_filters.ModelChoiceFilter(
-        queryset=SteerAxleModelReference.objects.all(),
-        field_name='steer_axle_model',
-        label='Steer Axle Model',
-        widget=forms.Select()
-    )
-    drive_axel_model = django_filters.ModelChoiceFilter(
-        queryset=DriveAxleModelReference.objects.all(),
-        field_name='drive_axle_model',
-        label='Drive Axle Model',
-        widget=forms.Select()
-    )
-    service_company = django_filters.ModelChoiceFilter(
-        queryset=ServiceCompanyReference.objects.all(),
-        label='Service Company',
-        widget=forms.Select()
-    )
-
-    class Meta:
-        model = Machine
-        fields = [
-            'serial_number', 'machine_model', 'engine_model',
-            'transmission_model', 'steer_axel_model',
-            'drive_axel_model', 'service_company'
-        ]
-
-
 
 class TechnicalMaintenanceFilter(django_filters.FilterSet):
     serial_number = django_filters.ModelChoiceFilter(
@@ -216,6 +164,73 @@ class TechnicalMaintenanceFilter(django_filters.FilterSet):
         super().__init__(*args, **kwargs)
         user_groups = user.groups.values_list('id', flat=True)
 
+        if 4 in user_groups:
+            self.filters['serial_number'].queryset = Machine.objects.filter(client=user)
+        else:
+            self.filters['serial_number'].queryset = Machine.objects.all()
+
+
+
+
+class GeneralInformationFilter(django_filters.FilterSet):
+
+    # Fixed the field name from machine__serial_number to serial_number
+    serial_number = django_filters.ModelChoiceFilter(
+        field_name='serial_number',
+        label='Machine Serial Number',
+        widget=forms.Select()
+    )
+
+    machine_model = django_filters.ModelChoiceFilter(
+        queryset=MachineModelReference.objects.all(),
+        field_name='model',
+        label='Machine Model',
+        widget=forms.Select()
+    )
+    engine_model = django_filters.ModelChoiceFilter(
+        queryset=EngineModelReference.objects.all(),
+        field_name='engine_model',
+        label='Engine Model',
+        widget=forms.Select()
+    )
+    transmission_model = django_filters.ModelChoiceFilter(
+        queryset=TransmissionModelReference.objects.all(),
+        field_name='transmission_model',
+        label='Transmission Model',
+        widget=forms.Select()
+    )
+    steer_axel_model = django_filters.ModelChoiceFilter(
+        queryset=SteerAxleModelReference.objects.all(),
+        field_name='steer_axle_model',
+        label='Steer Axle Model',
+        widget=forms.Select()
+    )
+    drive_axel_model = django_filters.ModelChoiceFilter(
+        queryset=DriveAxleModelReference.objects.all(),
+        field_name='drive_axle_model',
+        label='Drive Axle Model',
+        widget=forms.Select()
+    )
+    service_company = django_filters.ModelChoiceFilter(
+        queryset=ServiceCompanyReference.objects.all(),
+        label='Service Company',
+        widget=forms.Select()
+    )
+
+    class Meta:
+        model = Machine
+        fields = [
+            'serial_number', 'machine_model', 'engine_model',
+            'transmission_model', 'steer_axel_model',
+            'drive_axel_model', 'service_company'
+        ]
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        user_groups = user.groups.values_list('id', flat=True) if user else []
+
+        # Update queryset dynamically based on user group
         if 4 in user_groups:
             self.filters['serial_number'].queryset = Machine.objects.filter(client=user)
         else:
