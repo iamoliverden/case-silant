@@ -23,14 +23,9 @@ Registration is only possible through the admins.
 
 ## Setup and Installation
 1. **Clone the project** along with the test database.
-   ```sh
-   git clone <repository_url>
-   ````
+
 2. **Navigate to the project directory.**
 
-```sh
-cd <project_directory>
-```
 3. **Create a virtual environment.**
 ```sh
 python -m venv venv
