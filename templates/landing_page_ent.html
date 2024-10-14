@@ -92,14 +92,7 @@
 {% block my_script %}
 <script src="{% static 'JS/dynamic_content.js' %}"></script>
 <script src="{% static 'JS/redirections.js' %}"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        if (!window.location.search) {
-            // This condition prevents form submission if the form was already submitted and redirected back.
-            document.getElementById("search-button").click();
-        }
-    });
-</script>
+<script src="{% static 'JS/clicker.js' %}"></script>
 {% endblock %}
 </body>
 </html>
