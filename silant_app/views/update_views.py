@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import UpdateView
 from silant_app.forms import TechnicalMaintenanceUpdateForm, ClaimUpdateForm, MachineUpdateForm
 from silant_app.models import TechnicalMaintenance, Claim, Machine
-from silant_app.views.views_permissions import MaintenanceRecordPermissions, MachinePermissions
+from silant_app.views.views_permissions import MaintenanceRecordPermissions, MachinePermissions, ClaimPermissions
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -43,7 +43,7 @@ class TechnicalMaintenanceUpdateView(LoginRequiredMixin, MaintenanceRecordPermis
 
 
 # Claim Update View
-class ClaimUpdateView(UpdateView):
+class ClaimUpdateView(LoginRequiredMixin, ClaimPermissions, UpdateView):
     model = Claim
     form_class = ClaimUpdateForm
     template_name = 'edit_claim.html'
@@ -75,17 +75,16 @@ class ClaimUpdateView(UpdateView):
         return reverse_lazy('claims') + f'?serial_number={self.object.machine.serial_number}'
 
 
+
 # Machine Update View
-class MachineUpdateView(MachinePermissions, UpdateView):
+class MachineUpdateView(UpdateView):
     model = Machine
     form_class = MachineUpdateForm
     template_name = 'edit_machine.html'
 
-    def get_queryset(self):
-        # Fetch machine based on serial number passed in the query parameters
-        serial_number = self.request.GET.get('serial_number')
-        machine = Machine.objects.filter(serial_number=serial_number).first()
-        return machine
+    def get_object(self, queryset=None):
+        # Get the machine object based on the primary key from the URL
+        return super().get_object(queryset)
 
     def form_valid(self, form):
         # Additional validation or processing can be added here if needed
@@ -98,12 +97,12 @@ class MachineUpdateView(MachinePermissions, UpdateView):
     def is_manager(self):
         # Check if the user belongs to the 'manager' group (group 1)
         user_groups = self.request.user.groups.values_list('id', flat=True)
-        is_manager = any(group_id in [1] for group_id in user_groups)
+        is_manager = any(group_id in [1, 5] for group_id in user_groups)
         return is_manager
 
     def get_context_data(self, **kwargs):
         # Add context data for machine details and manager status
         context = super().get_context_data(**kwargs)
-        context['machine'] = self.get_queryset()
+        context['machine'] = self.get_object()  # Add the machine instance to the context
         context['is_manager'] = self.is_manager()
         return context

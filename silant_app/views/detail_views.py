@@ -5,7 +5,6 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import DetailView
 from silant_app.models import Machine, Claim
 from silant_app.views.views_permissions import ClaimPermissions, GroupFourPermission
-
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
@@ -36,4 +35,14 @@ def detailed_info_auth(request):
     serial_number = request.GET.get('serial_number')
     machine = Machine.objects.filter(serial_number=serial_number).first()
     user_name = request.user.username
-    return render(request, 'detailed_info_auth.html', {'machine': machine, 'user_name': user_name})
+
+    def is_manager():
+        # Check if the user belongs to the 'manager' group (group 1)
+        user_groups = request.user.groups.values_list('id', flat=True)
+        return any(group_id in [1, 5] for group_id in user_groups)
+
+    return render(request, 'detailed_info_auth.html', {
+        'machine': machine,
+        'user_name': user_name,
+        'is_manager': is_manager(),  # Pass the result of is_manager() to the template
+    })
