@@ -1,5 +1,5 @@
 import django_filters
-from .models import *
+from silant_app.models import *
 from django import forms
 
 

@@ -2,7 +2,7 @@
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
-from silant_app.filters import GeneralInformationFilter, ClaimFilter, TechnicalMaintenanceFilter
+from silant_app.filters.filters import GeneralInformationFilter, ClaimFilter, TechnicalMaintenanceFilter
 from silant_app.models import Machine, Claim, TechnicalMaintenance
 from silant_app.views.views_permissions import GeneralInformationPermissions, ClaimPermissions, MaintenancePermissions, GroupFourPermission
 

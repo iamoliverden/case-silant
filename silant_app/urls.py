@@ -2,6 +2,10 @@
 
 from django.urls import path
 from silant_app.views.views import *
+from silant_app.views.create_views import *
+from silant_app.views.detail_views import *
+from silant_app.views.list_views import *
+from silant_app.views.update_views import *
 
 
 urlpatterns = [
